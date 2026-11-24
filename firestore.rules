@@ -1,0 +1,123 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function activeUser() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+    function role() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role;
+    }
+    function master() { return activeUser() && role() == 'master'; }
+    function administrador() { return activeUser() && role() == 'administrador'; }
+    function allowed(section) {
+      return activeUser() && (
+        role() in ['master', 'administrador']
+        || (!exists(/databases/$(database)/documents/settings/accessMatrix)
+            && role() == 'administrador')
+        || (exists(/databases/$(database)/documents/settings/accessMatrix)
+            && role() in get(/databases/$(database)/documents/settings/accessMatrix).data.permissions[section])
+      );
+    }
+    function manager(section) {
+      return allowed(section) && role() in ['master', 'administrador'];
+    }
+    function validMatrix() {
+      return request.resource.data.keys().hasOnly(['permissions', 'updatedAt', 'updatedBy'])
+        && request.resource.data.keys().hasAll(['permissions', 'updatedAt', 'updatedBy'])
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.permissions.keys().hasOnly([
+          'dashboard','clientes','perguntas','envios','respostas','historico','relatorios','acessos'
+        ])
+        && request.resource.data.permissions.keys().hasAll([
+          'dashboard','clientes','perguntas','envios','respostas','historico','relatorios','acessos'
+        ])
+        && request.resource.data.permissions.acessos is list
+        && 'administrador' in request.resource.data.permissions.acessos;
+    }
+    match /admins/{uid} {
+      // Cadastro de perfil comum pendente: não dá acesso aos dados.
+      allow get: if request.auth != null && (request.auth.uid == uid || administrador() || master());
+      allow list: if administrador() || master();
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && !exists(/databases/$(database)/documents/admins/$(uid))
+        && request.resource.data.keys().hasOnly(['name','email','role','active','createdAt'])
+        && request.resource.data.keys().hasAll(['name','email','role','active','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == 'usuario'
+        && request.resource.data.active == false
+        && request.resource.data.createdAt == request.time;
+      // Somente terceiro: administrador altera perfis; master ativa/desativa usuario.
+      allow update: if request.auth != null
+        && request.auth.uid != uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role','active'])
+        && request.resource.data.role in ['administrador','master','usuario']
+        && request.resource.data.active is bool
+        && (
+          administrador()
+          || (master() && resource.data.role == 'usuario' && request.resource.data.role == 'usuario')
+        );
+      allow delete: if false;
+    }
+    match /settings/accessMatrix {
+      allow read: if activeUser();
+      allow create, update: if administrador() && validMatrix();
+      allow delete: if false;
+    }
+    match /clients/{id} {
+      allow read: if allowed('clientes') || allowed('dashboard') || allowed('relatorios') || allowed('respostas') || allowed('historico');
+      allow create, update: if manager('clientes');
+      allow delete: if administrador();
+    }
+    match /questions/{id} {
+      allow read: if activeUser();
+      allow create, update: if manager('perguntas');
+      allow delete: if administrador();
+    }
+    match /invites/{id} {
+      // O link público é um token aleatório longo: sem esse token não se deve conhecer o ID.
+      // Atenção: o documento ainda é integralmente legível para quem possuir o link.
+      allow get: if true;
+      allow list: if activeUser();
+      allow create: if manager('envios')
+        && request.resource.data.status == 'pending';
+      allow delete: if administrador();
+      // Impede que o painel reabra convites concluídos, exceto pelo Master.
+      allow update: if (manager('envios') && resource.data.status != 'completed')
+        || administrador() || master()
+        || (
+          resource.data.status in ['pending','sent']
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','completedAt'])
+          && request.resource.data.status == 'completed'
+          && request.resource.data.completedAt == request.time
+          && existsAfter(/databases/$(database)/documents/responses/$(id))
+          && getAfter(/databases/$(database)/documents/responses/$(id)).data.inviteId == id
+        );
+    }
+    match /responses/{id} {
+      allow read: if allowed('respostas') || allowed('dashboard') || allowed('relatorios') || allowed('historico');
+      allow update, delete: if administrador();
+      allow create: if !exists(/databases/$(database)/documents/responses/$(id))
+        && exists(/databases/$(database)/documents/invites/$(id))
+        && get(/databases/$(database)/documents/invites/$(id)).data.status in ['pending','sent']
+        && request.resource.data.keys().hasOnly(['inviteId','clientId','clientName','answers','questionLabels','submittedAt'])
+        && request.resource.data.keys().hasAll(['inviteId','clientId','clientName','answers','questionLabels','submittedAt'])
+        && request.resource.data.answers is map
+        && request.resource.data.questionLabels is map
+        && request.resource.data.inviteId == id
+        && request.resource.data.clientId == get(/databases/$(database)/documents/invites/$(id)).data.clientId
+        && request.resource.data.clientName == get(/databases/$(database)/documents/invites/$(id)).data.clientName
+        && request.resource.data.submittedAt == request.time
+        && getAfter(/databases/$(database)/documents/invites/$(id)).data.status == 'completed';
+    }
+  }
+}
