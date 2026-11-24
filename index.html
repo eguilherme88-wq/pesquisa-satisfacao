@@ -1,0 +1,591 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pesquisa de Satisfação</title><meta name="theme-color" content="#14263d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Satisfação"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/icon-192.png"><style>:root{font-family:Inter,Arial,sans-serif;color:#17263a;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}header{background:#103b55;color:white;padding:18px 26px;display:flex;justify-content:space-between;align-items:center}header b{font-size:21px}nav{display:flex;gap:8px;flex-wrap:wrap;padding:15px 22px;background:white;border-bottom:1px solid #ddd}button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;background:#087c87;color:white;font-weight:600}button.secondary{background:#e6edf3;color:#243849}button.danger{background:#b73542}.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#e7edf4;color:#334155}.tag.completed{background:#dcfce7;color:#166534}.tag.sent{background:#dbeafe;color:#1d4ed8}.tag.pending{background:#fef3c7;color:#92400e}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:12px 0}.toolbar>div{min-width:200px;flex:1}.empty{padding:14px;color:#64748b}main{max-width:1180px;margin:25px auto;padding:0 16px}.panel{background:white;border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:0 2px 12px #1c34400c}h2{margin-top:0}input,select,textarea{padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;width:100%;margin:5px 0 12px}label{font-weight:600;font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}.metric{background:#edf7f8;border-radius:12px;padding:18px}.metric strong{display:block;font-size:28px;margin-top:8px}.hidden{display:none!important}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid #e4e9ef;padding:11px;text-align:left}th{background:#f4f7fa}.scroll{overflow:auto}.actions{display:flex;gap:6px;flex-wrap:wrap}.muted{color:#64748b}.bar{background:#e7eef3;border-radius:8px;overflow:hidden;height:12px}.bar span{display:block;background:#0c9398;height:100%}.question{border:1px solid #e0e7ef;padding:16px;border-radius:10px;margin:14px 0}.question label{display:block;margin:9px 0;font-weight:400}.question input[type=radio]{width:auto;margin-right:8px}.notice{background:#e7f5f1;padding:12px;border-radius:8px;margin-bottom:15px}#login{max-width:430px;margin:8vh auto}.small{font-size:12px}footer{text-align:center;padding:20px;color:#6b7280}@media(max-width:650px){header{padding:14px}nav{padding:10px}table{min-width:550px}}
+/* Interface 2.0 */
+:root{--bg:#f3f6fb;--surface:#fff;--ink:#162a40;--sub:#61748a;--line:#e2eaf1;--accent:#087c87;--soft:#edf7f8;--shadow:0 10px 32px rgba(16,45,65,.07);color-scheme:light}
+body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s}
+body.dark{--bg:#0d1726;--surface:#172538;--ink:#e8f1fa;--sub:#a4b5c7;--line:#314357;--accent:#13a5ad;--soft:#203c48;--shadow:0 12px 32px rgba(0,0,0,.18);color-scheme:dark}
+header{background:#103b55;padding:18px 28px;box-shadow:0 4px 20px #071b3018}header b{letter-spacing:-.5px}
+nav{background:var(--surface);border-color:var(--line);padding:13px max(20px,calc((100vw - 1260px)/2));gap:9px}
+nav button{background:transparent;color:var(--sub);padding:11px 14px}nav button:hover,nav button.active{background:var(--soft);color:var(--accent)}
+main{max-width:1280px}.panel{background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--line);border-radius:18px;padding:25px}
+h2{font-size:24px;letter-spacing:-.5px}.metric{background:var(--soft);border:1px solid var(--line);padding:21px;border-radius:14px}.metric strong{font-size:31px}
+input,select,textarea{background:var(--surface);color:var(--ink);border-color:var(--line)}input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+button{background:var(--accent)}button.secondary{background:var(--soft);color:var(--ink)}
+.question{border-color:var(--line)}th{background:var(--soft);color:var(--ink)}td,th{border-color:var(--line)}.muted,footer,.empty{color:var(--sub)}.notice{background:var(--soft);color:var(--ink)}.bar{background:var(--line)}
+.header-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.header-tools button{padding:8px 10px;background:#ffffff1a;color:#fff;border:1px solid #ffffff40}.header-tools span{font-size:13px}
+.role-pill{border:1px solid var(--line);padding:7px 10px;border-radius:30px;color:var(--sub);font-size:12px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.table-actions{display:flex;gap:5px;flex-wrap:wrap}.table-actions button{font-size:12px;padding:7px 10px}.toolbar input,.toolbar select{margin-bottom:0}
+.modal-overlay{position:fixed;inset:0;background:#081a2eb5;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px}.modal-overlay.hidden{display:none}.modal-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:25px;width:min(100%,530px);max-height:90vh;overflow:auto;box-shadow:0 30px 60px #0003}
+#accessRows input{width:auto;margin:0}.access-table td:not(:first-child),.access-table th:not(:first-child){text-align:center}.access-table input{width:auto}
+@media(max-width:650px){header{padding:14px;align-items:flex-start;gap:10px}header b{font-size:17px}.header-tools span{display:none}nav{padding:9px}main{padding:0 10px;margin:14px auto}.panel{padding:17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{padding:13px}.metric strong{font-size:24px}}
+
+/* Layout executivo 3.0 — sidebar, cards, tabelas e responsividade */
+:root{--sidebar:#ffffff;--sidebar-text:#53657c;--sidebar-hover:#eaf4ff;--primary:#2563eb;--primary-soft:#eaf1ff;--success:#10b981;--radius:16px}
+body.dark{--sidebar:#142237;--sidebar-text:#afbed0;--sidebar-hover:#263c55;--primary:#60a5fa;--primary-soft:#1d3557;--success:#34d399}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);min-height:100vh}
+header{height:70px;position:sticky;top:0;z-index:30;background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line);padding:0 26px;box-shadow:none}
+header b{font-size:19px;font-weight:800;color:var(--ink)}.brand-mark{display:inline-grid;place-items:center;width:35px;height:35px;background:#2563eb;color:white;border-radius:10px;margin-right:9px;font-size:20px}
+.header-tools button{background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:9px}.header-tools span{color:var(--sub)}
+nav#nav{position:fixed;top:70px;bottom:0;left:0;width:240px;z-index:25;background:var(--sidebar);border-right:1px solid var(--line);border-bottom:0;padding:24px 13px;display:flex;flex-direction:column;align-items:stretch;gap:5px;overflow-y:auto;box-shadow:none}
+nav#nav:before{content:'MENU PRINCIPAL';color:var(--sub);font-size:10px;letter-spacing:1.6px;font-weight:800;padding:5px 14px 13px}
+nav#nav button{width:100%;text-align:left;display:flex;align-items:center;gap:13px;border-radius:10px;padding:13px 14px;color:var(--sidebar-text);font-size:13px;font-weight:650;transition:background .15s,color .15s}
+nav#nav button:hover{background:var(--sidebar-hover);color:var(--primary)}nav#nav button.active{background:var(--primary-soft);color:var(--primary)}
+.nav-icon{display:inline-grid;place-items:center;width:21px;height:21px;flex:0 0 21px}.nav-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+nav#nav #logout{margin-top:auto;border-top:1px solid var(--line);border-radius:0;padding-top:19px}
+body.admin-mode main#admin{margin:0 0 0 240px;max-width:none;padding:28px 30px 60px;min-height:calc(100vh - 70px)}
+body.admin-mode footer{margin-left:240px;padding:12px}
+.tab.panel{background:transparent;box-shadow:none;border:0;padding:0;margin:0;max-width:1600px}
+.tab>h2,.section-heading h2{font-size:25px;letter-spacing:-.7px;margin:0 0 24px;font-weight:800}
+.tab>h3{margin:25px 0 14px;font-size:18px}
+#dashboard .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.metric{position:relative;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:22px 20px;min-height:125px;font-size:13px;color:var(--sub);font-weight:600;overflow:hidden}
+.metric strong{font-size:31px;color:var(--ink);font-weight:800;letter-spacing:-1px;margin-top:12px}.metric .metric-icon{position:absolute;right:18px;top:17px;width:39px;height:39px;display:grid;place-items:center;background:var(--primary-soft);border-radius:12px;color:var(--primary);font-size:21px}.metric:nth-child(4n+2) .metric-icon{background:#e8f9f3;color:#059669}.metric:nth-child(4n+3) .metric-icon{background:#fff1e8;color:#ea580c}.metric:nth-child(4n) .metric-icon{background:#f4eaff;color:#9333ea}
+#dashboard .dashboard-panels{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(260px,1fr);gap:18px;margin-top:22px}
+.dashboard-widget{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px;min-width:0}
+.dashboard-widget h3{margin:0 0 5px;font-size:17px}.widget-sub{font-size:12px;color:var(--sub);margin:0 0 18px}
+#charts .question{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:8px 0 18px;margin:0 0 13px}#charts .question:last-child{border-bottom:0}
+.bar{height:10px;border-radius:20px;background:var(--soft)}.bar span{background:linear-gradient(90deg,#2563eb,#06b6d4);border-radius:20px}
+.activity-item{display:flex;gap:11px;padding:14px 0;border-bottom:1px solid var(--line);font-size:13px}.activity-item:last-child{border:0}.activity-dot{width:32px;height:32px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);border-radius:10px;flex-shrink:0}.activity-item strong{display:block;margin-bottom:4px}.activity-item small{color:var(--sub)}
+.tab:not(#dashboard){background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:25px;box-shadow:var(--shadow)}
+button{transition:filter .15s,transform .15s}button:hover{filter:brightness(1.07)}button:active{transform:translateY(1px)}button:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
+input,select,textarea{border-radius:9px}th{font-size:12px;letter-spacing:.15px}td{font-size:13px}tr:hover td{background:var(--soft)}.tag{white-space:nowrap}
+#login{margin:8vh auto}body:not(.admin-mode) header{background:#103b55;color:white}body:not(.admin-mode) header b{color:white}
+@media(max-width:1100px){#dashboard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#dashboard .dashboard-panels{grid-template-columns:1fr}}
+@media(max-width:780px){header{height:auto;min-height:65px;padding:10px 13px;flex-wrap:wrap;gap:8px}.header-tools{gap:5px}.header-tools button{font-size:12px;padding:7px}.header-tools span{display:none}nav#nav{position:sticky;top:0;width:100%;height:auto;max-height:none;flex-direction:row;overflow-x:auto;padding:9px 10px;gap:5px;border-right:0;border-bottom:1px solid var(--line)}nav#nav:before{display:none}nav#nav button{width:auto;white-space:nowrap;padding:9px 12px}nav#nav #logout{margin-top:0;border:0;padding:9px 12px}body.admin-mode main#admin{margin:0;padding:18px 12px 40px}body.admin-mode footer{margin-left:0}.nav-icon{width:16px;flex-basis:16px}.nav-icon svg{width:16px;height:16px}}
+@media(max-width:490px){#dashboard .grid{gap:9px}.metric{padding:13px;min-height:100px;font-size:12px}.metric strong{font-size:25px}.metric .metric-icon{right:10px;top:10px;width:29px;height:29px;font-size:16px}.dashboard-widget{padding:14px}.tab:not(#dashboard){padding:15px}}
+
+/* Identidade e visualizações profissionais */
+.brand-mark{vertical-align:middle;color:#fff}.login-brand{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,#2563eb,#0891b2);color:white;margin-bottom:17px;box-shadow:0 12px 25px #2563eb33}
+#forgotPassword{margin-top:8px}.chart-card{padding:18px 0;border-bottom:1px solid var(--line)}.chart-card:last-child{border-bottom:0}.chart-title{font-weight:750;font-size:14px;line-height:1.45;margin-bottom:5px}.chart-subtitle{font-size:12px;color:var(--sub)}.chart-content{display:flex;align-items:center;gap:26px;margin-top:15px;flex-wrap:wrap}.donut-wrap{width:172px;height:172px;flex:0 0 172px;position:relative}.donut-wrap svg{display:block;width:100%;height:100%}.donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}.donut-center strong{font-size:26px;color:var(--ink);line-height:1.1}.donut-center span{font-size:11px;color:var(--sub)}.chart-legend{flex:1;min-width:170px;display:grid;gap:11px}.legend-row{display:grid;grid-template-columns:11px minmax(0,1fr) auto;gap:9px;align-items:center;font-size:13px;color:var(--sub)}.legend-dot{width:10px;height:10px;border-radius:4px}.legend-row strong{color:var(--ink);font-size:12px}.chart-empty{color:var(--sub);font-size:13px;padding:18px 0}.chart-heading{display:flex;align-items:center;gap:8px}.chart-heading svg{color:var(--primary)}@media(max-width:550px){.chart-content{gap:12px}.donut-wrap{width:140px;height:140px;flex-basis:140px}.chart-legend{min-width:140px}}
+
+/* Manutenção administrativa e instalação móvel */
+.admin-data-tools{margin-top:30px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
+.admin-data-tools h3{margin:0 0 10px;font-size:17px}.admin-data-tools .danger{background:#b91c1c}.admin-data-tools .actions{margin:15px 0}
+@media(max-width:780px){#installSurveyApp{white-space:nowrap}.admin-data-tools{padding:14px}}
+
+/* Menu móvel 4.0: gaveta acessível, sem rolagem horizontal */
+#mobileMenuToggle,#mobileMenuClose,#mobileNavBackdrop{display:none}
+@media(max-width:780px){
+ body.admin-mode header{position:sticky;top:0;z-index:65;min-height:62px;display:flex;flex-wrap:nowrap;align-items:center;padding:9px 12px;gap:8px}
+ header b{font-size:clamp(13px,3.8vw,17px);line-height:1.2;display:flex;align-items:center;min-width:0}
+ .brand-mark{width:30px;height:30px;flex-shrink:0;margin-right:6px}
+ .header-tools{margin-left:auto;flex-wrap:nowrap;gap:5px}
+ .header-tools #fullscreenToggle{display:none}
+ .header-tools #themeToggle{font-size:0;padding:8px;min-width:36px;min-height:36px}
+ .header-tools #themeToggle::first-letter{font-size:16px}
+ .header-tools #roleLabel{display:none!important}
+ #mobileMenuToggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--soft);color:var(--ink);border:1px solid var(--line);width:42px;height:42px;padding:0;border-radius:12px;font-size:24px}
+ body:not(.admin-mode) #mobileMenuToggle{display:none}
+ #mobileNavBackdrop{position:fixed;inset:0;background:rgba(4,13,26,.63);z-index:69}
+ body.mobile-menu-open #mobileNavBackdrop{display:block}
+ nav#nav{position:fixed;top:0;left:0;bottom:0;z-index:70;width:min(85vw,310px);height:100dvh;max-height:none;padding:72px 13px 18px;display:flex;flex-direction:column;align-items:stretch;gap:5px;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--line);border-bottom:0;box-shadow:10px 0 40px #0003;transform:translateX(-105%);visibility:hidden;transition:transform .23s ease,visibility .23s;overscroll-behavior:contain}
+ body.mobile-menu-open nav#nav{transform:translateX(0);visibility:visible}
+ nav#nav:before{display:block;content:'MENU PRINCIPAL';padding:5px 14px 13px}
+ nav#nav button{width:100%;min-height:48px;white-space:normal;padding:12px 14px;text-align:left;font-size:14px;gap:14px}
+ nav#nav #logout{margin-top:auto;border-top:1px solid var(--line);padding-top:17px}
+ #mobileMenuClose{display:flex;position:absolute;right:13px;top:15px;width:38px;height:38px;align-items:center;justify-content:center;background:var(--soft);color:var(--ink);font-size:23px;border:1px solid var(--line);padding:0}
+ body.admin-mode main#admin{margin:0;padding:16px 12px 36px;min-width:0}
+ body.admin-mode footer{margin-left:0}
+ .tab.panel,.tab:not(#dashboard){min-width:0}
+ .toolbar>div{min-width:min(100%,200px)}
+ .scroll{max-width:100%;-webkit-overflow-scrolling:touch}
+ body.mobile-menu-open{overflow:hidden}
+}
+@media(max-width:390px){header b{font-size:13px}.header-tools #themeToggle{display:none}#dashboard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){nav#nav{transition:none!important}}
+</style></head><body><header><button id="mobileMenuToggle" type="button" aria-label="Abrir menu" aria-controls="nav" aria-expanded="false">☰</button><b>◈ Pesquisa de Satisfação</b><div class="header-tools"><span id="who">Portal de pesquisas</span><span id="roleLabel" class="role-pill hidden"></span><button id="themeToggle" title="Alternar modo claro e escuro" type="button">☾ Tema</button><button id="installSurveyApp" type="button" class="hidden" title="Instalar aplicativo">⬇ Instalar app</button><button id="fullscreenToggle" title="Alternar tela cheia" type="button">⛶ Tela cheia</button></div></header><section id="login" class="panel hidden"><div class="login-brand" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></div><h2>Acessar Pesquisa de Satisfação</h2><p class="muted">Entre com seu e-mail e senha ou solicite acesso.</p><label>E-mail</label><input id="emailLogin" type="email" placeholder="admin@empresa.com"><label>Senha</label><input id="senhaLogin" type="password"><button id="btnLogin">Entrar</button> <button id="forgotPassword" type="button" class="secondary">Esqueci minha senha</button> <button id="verifyEmail" class="secondary hidden" type="button">Enviar e-mail de verificação</button> <button id="checkVerification" class="secondary hidden" type="button">Já verifiquei meu e-mail</button><p id="loginError" class="muted"></p><div style="margin-top:16px">
+<button id="openRegistration" type="button" class="secondary">
+Criar minha conta
+</button>
+</div>
+<form id="selfRegistration" class="hidden" style="margin-top:15px;border-top:1px solid var(--line);padding-top:15px"><h3>Solicitar acesso</h3><label>Nome</label><input id="registrationName" maxlength="100" required><label>E-mail</label><input id="registrationEmail" type="email" required><label>Senha (mínimo 12 caracteres)</label><input id="registrationPassword" type="password" minlength="12" autocomplete="new-password" required><button id="submitRegistration" type="submit">Enviar cadastro</button> <button id="cancelRegistration" class="secondary" type="button">Cancelar</button><p id="registrationMessage" class="muted" role="status"></p></form><p class="small">A conta deve ter o e-mail verificado e estar autorizada pelas regras do Firestore.</p></section><section id="setup" class="panel hidden" style="max-width:700px;margin:35px auto"><h2>Configurar Firebase</h2><p>Preencha os dados do seu projeto Firebase Web. Esta configuração fica armazenada apenas neste navegador. Configure as regras de segurança antes de utilizar dados reais.</p><textarea id="firebaseConfig" rows="8" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'></textarea><button id="saveConfig">Salvar configuração</button><p id="setupError"></p></section><div id="mobileNavBackdrop" aria-hidden="true"></div><nav id="nav" class="hidden" aria-label="Menu principal"><button id="mobileMenuClose" type="button" aria-label="Fechar menu">×</button><button data-tab="dashboard">Dashboard</button><button data-tab="clientes">Clientes</button><button data-tab="perguntas">Perguntas</button><button data-tab="envios">Enviar pesquisas</button><button data-tab="respostas">Respostas</button><button data-tab="historico">Histórico</button><button data-tab="acessos">Acessos</button><button id="logout" class="secondary">Sair</button></nav><main id="admin" class="hidden"><section id="dashboard" class="tab panel"><h2>Dashboard de satisfação</h2><div id="metrics" class="grid"></div><div class="dashboard-panels"><div class="dashboard-widget"><h3>Resultados por pergunta</h3><p class="widget-sub">Distribuição das avaliações recebidas</p><div id="charts"></div></div><div class="dashboard-widget"><h3>Atividades recentes</h3><p class="widget-sub">Últimos registros das pesquisas</p><div id="recentActivity"></div></div></div></section><section id="clientes" class="tab panel hidden"><h2>Cadastro de clientes</h2><form id="clientForm"><div class="grid"><div><label>Nome</label><input id="clientName" required></div><div><label>E-mail</label><input id="clientEmail" type="email" required></div><div><label>Empresa (opcional)</label><input id="clientCompany"></div></div><button id="clientSubmit">Adicionar cliente</button><button id="cancelClientEdit" class="secondary hidden" type="button">Cancelar edição</button></form><h3>Clientes cadastrados</h3><div class="scroll"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Situação</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="clientRows"></tbody></table></div></section><section id="perguntas" class="tab panel hidden"><h2>Cadastro de perguntas</h2><form id="questionForm"><label>Pergunta</label><input id="questionText" required><label>Tipo de resposta</label><select id="questionType"><option value="rating">Nota de 1 a 5</option><option value="yesno">Sim / Não</option><option value="text">Texto livre</option></select><button>Adicionar pergunta</button></form><h3>Perguntas ativas</h3><div id="questionRows"></div></section><section id="envios" class="tab panel hidden"><h2>Disparo de pesquisas</h2><p class="notice">Gere convites individuais e envie por e-mail. O envio automático requer que o Cloudflare Worker valide o login do administrador e esteja configurado para enviar pelo Gmail.</p><label>Endereço público do sistema (URL do site publicado)</label><input id="baseUrl" placeholder="https://seu-site.web.app/"><label>Selecionar destinatários</label><div class="actions"><button id="allClients" class="secondary" type="button">Selecionar todos</button><button id="noneClients" class="secondary" type="button">Limpar seleção</button></div><div id="recipientRows"></div><button id="generateInvites">Gerar convites selecionados</button><div id="inviteResults"></div><h3>Histórico e acompanhamento</h3><div class="toolbar"><div><label>Pesquisar cliente</label><input id="trackSearch" placeholder="Nome ou e-mail"></div><div><label>Situação</label><select id="trackFilter"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option><option value="none">Sem convite</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>E-mail</th><th>Situação</th><th>Convites</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="trackingRows"></tbody></table></div><p id="trackStatus" class="muted" role="status"></p></section><section id="respostas" class="tab panel hidden"><h2>Respostas recebidas</h2><div class="toolbar"><div><label>Buscar cliente</label><input id="responseSearch" placeholder="Nome ou e-mail"></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Data</th><th>Respostas</th></tr></thead><tbody id="responseRows"></tbody></table></div></section><section id="historico" class="tab panel hidden"><div class="section-heading"><h2>Histórico de pesquisas</h2><span class="muted">Todos os convites e respostas permanecem registrados</span></div><div class="toolbar"><div><label>Buscar cliente</label><input id="historySearch" placeholder="Nome, e-mail ou empresa"></div><div><label>Situação</label><select id="historyStatus"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Convite</th><th>Enviado em</th><th>Respondido em</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="historyRows"></tbody></table></div></section><section id="acessos" class="tab panel hidden"><h2>Matriz de acesso</h2><p class="muted">Permissões de interface. Para segurança real, aplique as mesmas restrições nas regras do Firestore e na validação do Worker.</p><div class="scroll"><table class="access-table"><thead><tr><th>Funcionalidade</th><th>Master</th><th>Administrador</th><th>Usuário</th></tr></thead><tbody id="accessRows"></tbody></table></div><h3>Usuários autorizados</h3><p class="muted">Os perfis são definidos na coleção <code>admins</code> do Firestore. Use o campo <code>role</code> com valor <code>master</code>, <code>administrador</code> ou <code>usuario</code>. Não altere o UID nem remova o campo <code>active</code>.</p><p id="roleHelp"></p>
+<div id="userManagement" style="margin-top:24px">
+  <h3>Gerenciar Usuários</h3>
+  <p class="muted">Novos cadastros entram como Usuário inativo. O administrador aprova a conta e pode definir o perfil depois da criação.</p>
+  <div class="scroll">
+    <table class="access-table">
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>Perfil</th>
+          <th>Situação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="userManagementRows">
+        <tr><td colspan="4">Aguardando carregamento...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  
+<div id="userCreateArea" style="margin-top:18px">
+  <button type="button" id="openUserCreate">+ Cadastrar Usuário</button>
+  <form id="userCreateForm" class="hidden" style="margin-top:16px">
+    <h3>Novo usuário</h3>
+    <label>Nome
+      <input id="newUserName" type="text" maxlength="100" required>
+    </label>
+    <label>E-mail
+      <input id="newUserEmail" type="email" required>
+    </label>
+    <label>Senha inicial
+      <input id="newUserPassword" type="password" minlength="12"
+             autocomplete="new-password" required>
+    </label>
+    <label>Perfil
+      <select id="newUserRole" required>
+        <option value="usuario">Usuário</option>
+        <option value="master">Master</option>
+        <option value="administrador">Administrador</option>
+      </select>
+    </label>
+    <button type="submit" id="saveNewUser">Salvar usuário</button>
+    <button type="button" id="cancelNewUser">Cancelar</button>
+    <p id="newUserMessage" class="muted" role="status"></p>
+  </form>
+</div>
+<p id="userManagementMessage" class="muted"></p>
+</div>
+<div id="adminDataTools" class="admin-data-tools hidden"><div class="section-heading"><h3>Manutenção dos dados</h3><span class="tag">Somente Administrador</span></div><p class="muted">Estas operações excluem dados permanentemente do Firebase. Faça um backup antes de prosseguir. As contas de usuários e as permissões serão preservadas.</p><div class="actions"><button type="button" id="backupSurveyData" class="secondary">Exportar backup JSON</button><button type="button" id="clearSurveyHistory" class="danger">Limpar histórico</button><button type="button" id="resetSurveyData" class="danger">Zerar dados do sistema</button></div><p id="dataMaintenanceStatus" role="status" aria-live="polite" class="muted"></p></div></section></main><div id="clientModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Editar cliente"><div class="modal-card"><h2>Editar cliente</h2><form id="editClientForm"><label>Nome</label><input id="editClientName" required><label>E-mail</label><input id="editClientEmail" type="email" required><label>Empresa</label><input id="editClientCompany"><div class="actions"><button type="submit">Salvar alterações</button><button type="button" class="secondary" id="closeClientModal">Cancelar</button></div></form><p id="editClientStatus" role="status"></p></div></div><main id="survey" class="hidden"><div class="panel"><h2>Pesquisa de satisfação</h2><p id="surveyIntro"></p><form id="surveyForm"></form><div id="surveyDone"></div></div></main><footer>Pesquisa de Satisfação • Firebase</footer><script type="module">
+import {initializeApp,deleteApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendEmailVerification,sendPasswordResetEmail,reload} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,writeBatch,onSnapshot,query,where,serverTimestamp,runTransaction} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+const $=id=>document.getElementById(id), escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let app,auth,db,clients=[],questions=[],responses=[],invites=[],unsubs=[];const token=new URLSearchParams(location.search).get('convite');const firebaseProjectConfig={apiKey:'AIzaSyBhEwhG2nQWlea3mq_XpPIbOTFPuLQ0dCw',authDomain:'pesquisa-satisfacao-e3aea.firebaseapp.com',projectId:'pesquisa-satisfacao-e3aea',storageBucket:'pesquisa-satisfacao-e3aea.firebasestorage.app',messagingSenderId:'786016357458',appId:'1:786016357458:web:e5846b2e0452d6b77d638b'};
+function show(id){['login','setup','admin','nav','survey'].forEach(x=>$(x).classList.add('hidden'));$(id).classList.remove('hidden');if(id==='admin')$('nav').classList.remove('hidden')};function tab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('hidden',x.id!==id))};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+function init(cfg){app=initializeApp(cfg);auth=getAuth(app);db=getFirestore(app);if(token){loadSurvey();return}onAuthStateChanged(auth,async u=>{cleanup();if(!u){show('login');$('verifyEmail').classList.add('hidden');$('checkVerification').classList.add('hidden');$('who').textContent='Portal administrativo';return}try{if(!u.emailVerified){show('login');$('loginError').textContent='Confirme seu e-mail para continuar. Use o botão abaixo para receber o link de verificação.';$('verifyEmail').classList.remove('hidden');$('checkVerification').classList.remove('hidden');return}let adm=await getDoc(doc(db,'admins',u.uid));if(!adm.exists()||adm.data().active!==true){show('login');$('loginError').textContent='Conta aguardando aprovação do administrador. Confirme seu e-mail e aguarde a ativação.';return}currentRole=['master','administrador','usuario'].includes(adm.data().role)?adm.data().role:'usuario';show('admin');$('who').textContent=u.email;applyRole();subscribe();tab('dashboard');}catch(e){$('loginError').textContent=e.message;show('login')}})}
+function cleanup(){unsubs.forEach(f=>f());unsubs=[];if(unsubscribeUsers){unsubscribeUsers();unsubscribeUsers=null;}}function subscribe(){for(const [name,fn] of [['clients',v=>clients=v],['questions',v=>questions=v],['responses',v=>responses=v],['invites',v=>invites=v]]){unsubs.push(onSnapshot(collection(db,name),snap=>{fn(snap.docs.map(d=>({id:d.id,...d.data()})));render()},e=>alert('Erro ao carregar '+name+': '+e.message)))}}const dateStr=v=>v?.toDate?.()?.toLocaleString('pt-BR')||'—';
+function clientInvites(id){return invites.filter(i=>i.clientId===id).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0))}
+function clientResponses(id){return responses.filter(r=>r.clientId===id).sort((a,b)=>(b.submittedAt?.toMillis?.()||0)-(a.submittedAt?.toMillis?.()||0))}
+function clientState(id){const list=clientInvites(id);if(clientResponses(id).length||list.some(i=>i.status==='completed'))return 'completed';if(list.some(i=>i.status==='sent'||i.sentAt))return 'sent';if(list.length)return 'pending';return 'none'}
+function stateTag(state){return `<span class="tag ${state}">${({completed:'Respondido',sent:'Enviado',pending:'Pendente',none:'Sem convite'})[state]}</span>`}
+function renderTracking(){const term=($('trackSearch').value||'').trim().toLowerCase(),filter=$('trackFilter').value;const rows=clients.filter(c=>(c.name+' '+c.email).toLowerCase().includes(term)&&(filter==='all'||clientState(c.id)===filter));$('trackingRows').innerHTML=rows.map(c=>{const list=clientInvites(c.id),sent=list.find(i=>i.sentAt),ans=clientResponses(c.id)[0],state=clientState(c.id);return `<tr><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td>${stateTag(state)}</td><td>${list.length}</td><td>${dateStr(sent?.sentAt)}</td><td>${dateStr(ans?.submittedAt||list.find(i=>i.completedAt)?.completedAt)}</td><td>${state==='completed'?'Respondido':`<button type="button" class="secondary" data-reuse-client="${c.id}">${list.length?'Reutilizar convite':'Criar convite'}</button>`}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">Nenhum cliente encontrado.</td></tr>'}
+function renderResponses(){const term=($('responseSearch').value||'').trim().toLowerCase();$('responseRows').innerHTML=responses.filter(r=>{const c=clients.find(c=>c.id===r.clientId);return ((r.clientName||c?.name||'')+' '+(c?.email||'')).toLowerCase().includes(term)}).sort((a,b)=>(b.submittedAt?.toMillis?.()||0)-(a.submittedAt?.toMillis?.()||0)).map(r=>{let c=clients.find(c=>c.id===r.clientId);return `<tr><td>${escapeHtml(r.clientName||c?.name||'Cliente')}<div class="muted small">${escapeHtml(c?.email||'')}</div></td><td>${dateStr(r.submittedAt)}</td><td>${Object.entries(r.answers||{}).map(([k,v])=>`<div><b>${escapeHtml(r.questionLabels?.[k]||questions.find(q=>q.id===k)?.text||'Pergunta')}:</b> ${escapeHtml(v)}</div>`).join('')}</td></tr>`}).join('')||'<tr><td colspan="3" class="empty">Nenhuma resposta encontrada.</td></tr>'}
+function render(){ $('clientRows').innerHTML=clients.map(c=>{const list=clientInvites(c.id),ans=clientResponses(c.id)[0];return `<tr><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.email)}</td><td>${escapeHtml(c.company)}</td><td>${stateTag(clientState(c.id))}</td><td>${dateStr(list.find(i=>i.sentAt)?.sentAt)}</td><td>${dateStr(ans?.submittedAt)}</td><td><button class="danger" data-delete-client="${c.id}">Excluir</button></td></tr>`}).join('');$('questionRows').innerHTML=questions.map((q,i)=>`<div class="question"><b>${i+1}. ${escapeHtml(q.text)}</b> <span class="muted">(${q.type})</span> <button class="danger" data-delete-question="${q.id}">Excluir</button></div>`).join('');$('recipientRows').innerHTML=clients.map(c=>`<label style="display:block;margin:9px 0"><input type="checkbox" class="recipient" value="${c.id}" style="width:auto"> ${escapeHtml(c.name)} — ${escapeHtml(c.email)}</label>`).join('');renderResponses();renderTracking();let invited=new Set(invites.map(i=>i.clientId)),answered=new Set(responses.map(r=>r.clientId));let invitedCount=[...invited].filter(id=>clients.some(c=>c.id===id)).length;let answeredInvited=[...answered].filter(id=>invited.has(id)&&clients.some(c=>c.id===id)).length;let pendingCount=clients.filter(c=>['sent','pending'].includes(clientState(c.id))).length;$('metrics').innerHTML=[['Clientes',clients.length],['Perguntas',questions.length],['Clientes convidados',invitedCount],['Convites gerados (histórico)',invites.length],['Respostas recebidas',responses.length],['Clientes respondentes',answered.size],['Clientes pendentes',pendingCount],['Taxa de resposta',invitedCount?Math.round(100*answeredInvited/invitedCount)+'%':'0%']].map(([l,v])=>`<div class="metric">${l}<strong>${v}</strong></div>`).join('');$('charts').innerHTML=questions.filter(q=>q.type!=='text').map(q=>{let vals=responses.map(r=>r.answers?.[q.id]).filter(Boolean),opts=q.type==='rating'?['1','2','3','4','5']:['Sim','Não'];return `<div class="question"><b>${escapeHtml(q.text)}</b><p class="muted">${vals.length} resposta(s)</p>${opts.map(v=>{let n=vals.filter(x=>x===v).length,p=vals.length?Math.round(n/vals.length*100):0;return `<div style="margin:9px 0">${v}: ${n} (${p}%)<div class="bar"><span style="width:${p}%"></span></div></div>`}).join('')}</div>`}).join('')};
+$('saveConfig').onclick=()=>{try{let cfg=JSON.parse($('firebaseConfig').value);if(!cfg.apiKey||!cfg.projectId||!cfg.authDomain||!cfg.appId)throw Error('Configuração incompleta');localStorage.setItem('surveyFirebaseConfig',JSON.stringify(cfg));location.reload()}catch(e){$('setupError').textContent=e.message}};$('btnLogin').onclick=async()=>{try{$('loginError').textContent='';await signInWithEmailAndPassword(auth,$('emailLogin').value,$('senhaLogin').value)}catch(e){$('loginError').textContent='Não foi possível entrar: '+e.message}};$('forgotPassword').onclick=async()=>{const email=$('emailLogin').value.trim();if(!email){$('loginError').textContent='Informe seu e-mail acima para recuperar a senha.';$('emailLogin').focus();return;}const btn=$('forgotPassword');btn.disabled=true;try{await sendPasswordResetEmail(auth,email);$('loginError').textContent='Se o endereço estiver cadastrado, você receberá um e-mail para redefinir sua senha. Confira também a pasta de spam.';}catch(e){console.error('Recuperação de senha:',e);$('loginError').textContent=e.code==='auth/invalid-email'?'Informe um endereço de e-mail válido.':'Não foi possível solicitar a recuperação agora. Tente novamente mais tarde.';}finally{btn.disabled=false}};$('logout').onclick=()=>signOut(auth);$('verifyEmail').onclick=async()=>{try{if(!auth.currentUser)throw Error('Entre primeiro com e-mail e senha.');await sendEmailVerification(auth.currentUser);$('loginError').textContent='E-mail de verificação enviado. Verifique também a pasta de spam.'}catch(e){$('loginError').textContent=e.message}};$('checkVerification').onclick=async()=>{try{await reload(auth.currentUser);if(auth.currentUser.emailVerified){location.reload()}else $('loginError').textContent='O e-mail ainda não está verificado.'}catch(e){$('loginError').textContent=e.message}};
+$('clientForm').onsubmit=async e=>{e.preventDefault();if(!can('editClient'))return;try{await addDoc(collection(db,'clients'),{name:$('clientName').value.trim(),email:$('clientEmail').value.trim().toLowerCase(),company:$('clientCompany').value.trim(),createdAt:serverTimestamp()});e.target.reset()}catch(e){alert(e.message)}};$('questionForm').onsubmit=async e=>{e.preventDefault();if(!can('editQuestion'))return;try{await addDoc(collection(db,'questions'),{text:$('questionText').value.trim(),type:$('questionType').value,createdAt:serverTimestamp()});e.target.reset()}catch(e){alert(e.message)}};document.addEventListener('click',async e=>{let c=e.target.dataset.deleteClient,q=e.target.dataset.deleteQuestion;if(c&&can('deleteClient')&&confirm('Excluir este cliente?'))await deleteDoc(doc(db,'clients',c));if(q&&can('deleteQuestion')&&confirm('Excluir esta pergunta?'))await deleteDoc(doc(db,'questions',q))});$('allClients').onclick=()=>document.querySelectorAll('.recipient').forEach(c=>c.checked=true);$('noneClients').onclick=()=>document.querySelectorAll('.recipient').forEach(c=>c.checked=false);
+const EMAIL_WORKER_URL='https://pesquisa-satisfacao-email.emoraesguilherme78.workers.dev';
+$('baseUrl').value=location.origin+location.pathname;
+$('trackSearch').oninput=renderTracking;$('trackFilter').onchange=renderTracking;$('responseSearch').oninput=renderResponses;
+function invitationUrl(id){let base=$('baseUrl').value.trim();if(!/^https:\/\//.test(base))throw Error('Informe uma URL HTTPS pública válida.');let url=new URL(base);url.searchParams.set('convite',id);return url.toString()}
+async function prepareInvites(ids){if(!ids.length)return alert('Selecione pelo menos um cliente.');if(!questions.length)return alert('Cadastre perguntas primeiro.');let out=[],skipped=[];for(const id of ids){const c=clients.find(x=>x.id===id);if(!c)continue;const existing=clientInvites(id);if(clientState(id)==='completed'){skipped.push(c.name+' (já respondeu)');continue}let inv=existing.find(i=>i.status==='sent'||i.status==='pending');let t;if(inv){t=inv.id}else{t=crypto.randomUUID()+crypto.randomUUID();await setDoc(doc(db,'invites',t),{clientId:id,clientName:c.name,email:c.email,status:'pending',createdAt:serverTimestamp(),questions:questions.map(q=>({id:q.id,text:q.text,type:q.type}))})}out.push({id:t,name:c.name,email:c.email,url:invitationUrl(t),alreadySent:inv?.status==='sent'})}
+let subject=encodeURIComponent('Pesquisa de satisfação');$('inviteResults').innerHTML='<h3>Convites preparados</h3>'+(skipped.length?`<p class="notice">Não foram gerados novos convites para: ${escapeHtml(skipped.join(', '))}.</p>`:'')+out.map(o=>`<div class="question"><b>${escapeHtml(o.name)}</b> — ${escapeHtml(o.email)} ${o.alreadySent?stateTag('sent'):stateTag('pending')}<br><input readonly value="${escapeHtml(o.url)}"><a href="mailto:${encodeURIComponent(o.email)}?subject=${subject}&body=${encodeURIComponent('Olá, '+o.name+'! Gostaríamos de ouvir sua opinião. Responda nossa pesquisa: '+o.url)}">Abrir e-mail para envio individual</a></div>`).join('')+(out.length?'<div class="actions"><button id="sendInvites" type="button">Enviar convites pelo Gmail</button><button id="copyInvites" type="button" class="secondary">Copiar links e destinatários</button></div><p id="emailSendStatus" class="muted" role="status" aria-live="polite"></p>':'');if(!out.length)return;
+$('copyInvites').onclick=()=>navigator.clipboard.writeText(out.map(o=>`${o.name} <${o.email}>: ${o.url}`).join('\n'));
+$('sendInvites').onclick=async()=>{if(!can('send'))return;const btn=$('sendInvites'),status=$('emailSendStatus');btn.disabled=true;let ok=0,failed=0;try{const user=auth.currentUser;if(!user||!user.emailVerified)throw Error('Entre novamente como administrador.');const idToken=await user.getIdToken();for(const o of out){status.textContent=`Enviando ${ok+failed+1} de ${out.length}...`;try{const r=await fetch(EMAIL_WORKER_URL+'/email/send',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+idToken},body:JSON.stringify({to:o.email,subject:'Pesquisa de satisfação',text:`Olá, ${o.name}! Gostaríamos de ouvir sua opinião. Responda nossa pesquisa: ${o.url}`})});const data=await r.json().catch(()=>({}));if(!r.ok||data.success===false)throw Error(data.error||`HTTP ${r.status}`);ok++;try{await setDoc(doc(db,'invites',o.id),{status:'sent',sentAt:serverTimestamp()},{merge:true})}catch(markError){console.warn('E-mail enviado, mas não foi possível registrar status:',markError);status.textContent='Atenção: e-mail enviado, mas não foi possível atualizar o histórico. Confira as regras do Firestore.'}}catch(e){failed++;console.error('Falha ao enviar convite para',o.email,e)}}status.textContent=`Envios confirmados: ${ok}. Falhas: ${failed}. ${failed?'Verifique a integração Gmail e o Worker.':''}`;}catch(e){status.textContent='Não foi possível enviar: '+e.message}finally{btn.disabled=false}};
+}
+$('generateInvites').onclick=async()=>{if(!can('send'))return;const ids=[...document.querySelectorAll('.recipient:checked')].map(x=>x.value);try{await prepareInvites(ids)}catch(e){alert('Erro ao preparar convites: '+e.message)}};
+document.addEventListener('click',async e=>{const id=e.target?.dataset?.reuseClient;if(id){try{await prepareInvites([id]);$('trackStatus').textContent='Convite preparado acima. Confira o link e clique em Enviar convites pelo Gmail.'}catch(err){$('trackStatus').textContent=err.message}}});
+async function loadSurvey(){show('survey');try{let ref=doc(db,'invites',token),snap=await getDoc(ref);if(!snap.exists())throw Error('Convite inválido.');let inv=snap.data();if(inv.status==='completed'){$('surveyIntro').textContent='Esta pesquisa já foi respondida.';return}let qs=inv.questions||[];$('surveyIntro').textContent='Olá, '+inv.clientName+'! Sua opinião é muito importante. Responda às perguntas abaixo.';$('surveyForm').innerHTML=qs.map((q,i)=>`<div class="question"><b>${i+1}. ${escapeHtml(q.text)}</b>${q.type==='text'?`<textarea name="${q.id}" required rows="3"></textarea>`:`<div>${(q.type==='rating'?['1','2','3','4','5']:['Sim','Não']).map(v=>`<label><input required type="radio" name="${q.id}" value="${v}">${v}</label>`).join('')}</div>`}</div>`).join('')+'<button type="submit">Concluir pesquisa</button>';$('surveyForm').onsubmit=async e=>{e.preventDefault();let btn=e.target.querySelector('button');btn.disabled=true;let fd=new FormData(e.target),answers={},labels={};qs.forEach(q=>{answers[q.id]=String(fd.get(q.id)||'');labels[q.id]=q.text});try{await runTransaction(db,async tx=>{let fresh=await tx.get(ref);if(!fresh.exists()||!['pending','sent'].includes(fresh.data().status))throw Error('Convite já utilizado.');tx.set(doc(db,'responses',token),{inviteId:token,clientId:inv.clientId,clientName:inv.clientName,answers,questionLabels:labels,submittedAt:serverTimestamp()});tx.update(ref,{status:'completed',completedAt:serverTimestamp()})});$('surveyForm').innerHTML='';$('surveyDone').innerHTML='<div class="notice"><b>Obrigado!</b> Sua resposta foi registrada com sucesso.</div>'}catch(err){alert(err.message);btn.disabled=false}}}catch(e){$('surveyIntro').textContent='Não foi possível abrir a pesquisa: '+e.message}}
+// Experiência, perfis e histórico: dados anteriores são preservados.
+let currentRole='usuario',editingClientId=null;
+const roleNames={master:'Master',administrador:'Administrador',usuario:'Usuário'};
+const permissions={dashboard:['master','administrador','usuario'],clientes:['master','administrador'],perguntas:['master','administrador'],envios:['master','administrador'],respostas:['master','administrador','usuario'],historico:['master','administrador','usuario'],acessos:['administrador','master']};
+const can=(action)=>({editClient:['master','administrador'],deleteClient:['master','administrador'],editQuestion:['master','administrador'],deleteQuestion:['master','administrador'],send:['master','administrador'],resend:['master','administrador'],access:['administrador']}[action]||[]).includes(currentRole);
+function applyRole(){document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('hidden',!permissions[b.dataset.tab]?.includes(currentRole))});$('roleLabel').classList.remove('hidden');$('roleLabel').textContent=roleNames[currentRole];$('clientForm').classList.toggle('hidden',!can('editClient'));$('questionForm').classList.toggle('hidden',!can('editQuestion'));$('generateInvites').disabled=!can('send');$('adminDataTools').classList.toggle('hidden',currentRole!=='administrador');$('roleHelp').textContent='Perfil conectado: '+roleNames[currentRole]+'. Novas contas ficam inativas até aprovação. Administrador pode alterar perfis; Master pode ativar/desativar usuários comuns.';renderAccessMatrix();}
+
+let unsubscribeUsers=null;
+
+function loadUserManagement(){
+  const tabela=$('userManagementRows');
+  if(!tabela || !db || !auth.currentUser)return;
+
+  if(!['administrador','master'].includes(currentRole)){
+    tabela.innerHTML='<tr><td colspan="4">Acesso não autorizado.</td></tr>';
+    return;
+  }
+
+  if(unsubscribeUsers)unsubscribeUsers();
+
+  unsubscribeUsers=onSnapshot(
+    collection(db,'admins'),
+    snapshot=>{
+      tabela.innerHTML=snapshot.docs.map(documento=>{
+        const usuario=documento.data();
+        const uid=documento.id;
+        const perfil=usuario.role||'usuario';
+        const situacao=usuario.active===true?'Ativo':'Inativo';
+        const identificacao=usuario.email||usuario.name||uid;
+
+        return '<tr>'+
+          '<td>'+escapeHtml(identificacao)+'</td>'+
+          '<td>'+escapeHtml(perfil)+'</td>'+
+          '<td>'+situacao+'</td>'+
+          '<td>'+
+          (uid===auth.currentUser.uid
+            ? 'Sua conta'
+            : currentRole==='master' && perfil!=='usuario'
+            ? 'Sem permissão'
+            : '<select class="user-role" data-uid="'+escapeHtml(uid)+'" '+(currentRole==='master'?'disabled':'')+'>'+
+              ['administrador','master','usuario'].map(r=>
+                '<option value="'+r+'" '+(r===perfil?'selected':'')+'>'+r+'</option>'
+              ).join('')+
+              '</select> '+
+              '<button type="button" class="user-status" data-uid="'+escapeHtml(uid)+'">'+
+              (usuario.active===true?'Desativar':'Ativar')+
+              '</button>'
+          )+
+          '</td>'+
+          '</tr>';
+      }).join('')||'<tr><td colspan="4">Nenhum usuário cadastrado.</td></tr>';
+    },
+    erro=>{
+      tabela.innerHTML='<tr><td colspan="4">Erro ao carregar usuários.</td></tr>';
+      console.error(erro);
+    }
+  );
+}
+
+
+async function changeUserStatus(uid){
+  if(!auth.currentUser || !db)return;
+
+  const atual=auth.currentUser.uid;
+
+  if(uid===atual){
+    alert('Você não pode alterar sua própria conta.');
+    return;
+  }
+
+  if(!['administrador','master'].includes(currentRole)){
+    alert('Sem permissão.');
+    return;
+  }
+
+  try{
+    const referencia=doc(db,'admins',uid);
+    const registro=await getDoc(referencia);
+
+    if(!registro.exists())throw Error('Usuário não encontrado.');
+
+    const usuario=registro.data();
+
+    if(currentRole==='master' && usuario.role!=='usuario'){
+      throw Error('Master só pode gerenciar usuários comuns.');
+    }
+
+    const novoStatus=usuario.active!==true;
+
+    if(!confirm(novoStatus?'Ativar este usuário?':'Desativar este usuário?')){
+      return;
+    }
+
+    await setDoc(referencia,{active:novoStatus},{merge:true});
+
+    $('userManagementMessage').textContent=
+      'Situação atualizada com sucesso.';
+
+  }catch(erro){
+    $('userManagementMessage').textContent=
+      'Erro: '+erro.message;
+  }
+}
+
+
+$('userManagementRows').addEventListener('click',async evento=>{
+  const botao=evento.target.closest('.user-status');
+  if(!botao)return;
+
+  botao.disabled=true;
+  try{
+    await changeUserStatus(botao.dataset.uid);
+  }finally{
+    botao.disabled=false;
+  }
+});
+
+
+async function changeUserRole(uid,novoPerfil){
+  if(!auth.currentUser || !db)return;
+
+  if(currentRole!=='administrador'){
+    alert('Somente o Administrador pode alterar perfis.');
+    return;
+  }
+
+  if(uid===auth.currentUser.uid){
+    alert('Você não pode alterar seu próprio perfil.');
+    return;
+  }
+
+  if(!['administrador','master','usuario'].includes(novoPerfil)){
+    alert('Perfil inválido.');
+    return;
+  }
+
+  try{
+    const referencia=doc(db,'admins',uid);
+    const registro=await getDoc(referencia);
+
+    if(!registro.exists()){
+      throw Error('Usuário não encontrado.');
+    }
+
+    const perfilAnterior=registro.data().role;
+
+    if(perfilAnterior===novoPerfil)return;
+
+    if(!confirm('Alterar o perfil deste usuário para '+novoPerfil+'?')){
+      loadUserManagement();
+      return;
+    }
+
+    await setDoc(referencia,{role:novoPerfil},{merge:true});
+
+    $('userManagementMessage').textContent=
+      'Perfil atualizado com sucesso.';
+
+  }catch(erro){
+    $('userManagementMessage').textContent=
+      'Erro ao alterar perfil: '+erro.message;
+    loadUserManagement();
+  }
+}
+
+
+$('userManagementRows').addEventListener('change',async evento=>{
+  const seletor=evento.target.closest('.user-role');
+  if(!seletor)return;
+
+  if(currentRole!=='administrador'){
+    alert('Somente o Administrador pode alterar perfis.');
+    loadUserManagement();
+    return;
+  }
+
+  seletor.disabled=true;
+  try{
+    await changeUserRole(seletor.dataset.uid,seletor.value);
+  }finally{
+    seletor.disabled=false;
+  }
+});
+
+
+function configureUserCreateForm(){
+  $('userCreateForm').onsubmit=saveNewSurveyUser;
+  const abrir=$('openUserCreate');
+  const cancelar=$('cancelNewUser');
+  const formulario=$('userCreateForm');
+  const perfil=$('newUserRole');
+
+  if(!abrir || !cancelar || !formulario || !perfil)return;
+
+  abrir.onclick=()=>{
+    if(!['administrador','master'].includes(currentRole))return;
+
+    perfil.innerHTML='<option value="usuario">Usuário (aprovação necessária)</option>';
+
+    formulario.classList.remove('hidden');
+    abrir.classList.add('hidden');
+  };
+
+  cancelar.onclick=()=>{
+    formulario.reset();
+    formulario.classList.add('hidden');
+    abrir.classList.remove('hidden');
+    $('newUserMessage').textContent='';
+  };
+}
+
+
+async function saveNewSurveyUser(event){
+  event.preventDefault();
+
+  const botao=$('saveNewUser');
+  const mensagem=$('newUserMessage');
+
+  if(!auth.currentUser || !db){
+    mensagem.textContent='Conexão indisponível.';
+    return;
+  }
+
+  if(!['administrador','master'].includes(currentRole)){
+    mensagem.textContent='Sem permissão para cadastrar usuários.';
+    return;
+  }
+
+  const nome=$('newUserName').value.trim();
+  const email=$('newUserEmail').value.trim().toLowerCase();
+  const senha=$('newUserPassword').value;
+  if(!nome || !email || senha.length<12){mensagem.textContent='Preencha os dados e use uma senha com pelo menos 12 caracteres.';return;}
+  const botaoAnterior=botao.disabled;
+  botao.disabled=true;
+  mensagem.textContent='Criando conta no Firebase Authentication...';
+  try{
+    const resultado=await criarContaPendente(nome,email,senha);
+    mensagem.textContent='Conta criada como Usuário, aguardando aprovação. Foi solicitado um e-mail de verificação. Após verificar, o administrador poderá ativar e, se necessário, mudar o perfil.';
+    $('userCreateForm').reset();
+  }catch(erro){
+    console.error('Cadastro:',erro);
+    mensagem.textContent='Não foi possível cadastrar: '+(erro.message||'Erro desconhecido.');
+  }finally{botao.disabled=botaoAnterior;}
+
+}
+
+// Spark: cadastro de conta sem trocar a sessão do administrador.
+// A conta sempre nasce com perfil usuario e active:false; somente regras do Firestore autorizam a ativação.
+async function criarContaPendente(nome,email,senha){
+  const appSec=initializeApp(firebaseProjectConfig,'cadastro-spark-'+crypto.randomUUID());
+  try{
+    const authSec=getAuth(appSec);
+    const cred=await createUserWithEmailAndPassword(authSec,email,senha);
+    try{
+      await setDoc(doc(getFirestore(appSec),'admins',cred.user.uid),{name:nome,email:email,role:'usuario',active:false,createdAt:serverTimestamp()});
+    }catch(e){
+      throw Error('Conta criada no Authentication, mas o registro de autorização falhou. Verifique as regras do Firestore antes de tentar novamente. Detalhe: '+e.message);
+    }
+    try{await sendEmailVerification(cred.user)}catch(e){console.warn('Não foi possível enviar verificação:',e)}
+    await signOut(authSec);
+    return cred.user.uid;
+  }finally{await deleteApp(appSec)}
+}
+$('openRegistration').onclick=()=>{$('selfRegistration').classList.remove('hidden');$('openRegistration').classList.add('hidden')};
+$('cancelRegistration').onclick=()=>{$('selfRegistration').classList.add('hidden');$('openRegistration').classList.remove('hidden')};
+$('selfRegistration').onsubmit=async event=>{
+  event.preventDefault();const btn=$('submitRegistration'),msg=$('registrationMessage');btn.disabled=true;msg.textContent='Criando conta...';
+  try{await criarContaPendente($('registrationName').value.trim(),$('registrationEmail').value.trim().toLowerCase(),$('registrationPassword').value);msg.textContent='Cadastro recebido! Verifique seu e-mail e aguarde a aprovação do administrador.';$('selfRegistration').reset()}
+  catch(e){msg.textContent='Erro: '+e.message}finally{btn.disabled=false}
+};
+
+function renderAccessMatrix(){configureUserCreateForm();let labels={dashboard:'Visualizar dashboard',clientes:'Gerenciar clientes',perguntas:'Gerenciar perguntas',envios:'Enviar pesquisas',respostas:'Consultar respostas',historico:'Consultar histórico',acessos:'Gerenciar acessos'};$('accessRows').innerHTML=Object.entries(labels).map(([key,label])=>`<tr><td>${label}</td>${['master','administrador','usuario'].map(role=>`<td>${permissions[key].includes(role)?'✓':'—'}</td>`).join('')}</tr>`).join('');}
+function renderHistory(){let term=($('historySearch').value||'').toLowerCase(),status=$('historyStatus').value;let filtered=invites.filter(i=>{let c=clients.find(x=>x.id===i.clientId);return (status==='all'||i.status===status)&&((i.clientName||c?.name||'')+' '+(i.email||c?.email||'')+' '+(c?.company||'')).toLowerCase().includes(term)}).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));$('historyRows').innerHTML=filtered.map(i=>{let c=clients.find(x=>x.id===i.clientId),ans=responses.find(r=>r.inviteId===i.id);return `<tr><td><b>${escapeHtml(i.clientName||c?.name||'Cliente')}</b><div class="small muted">${escapeHtml(i.email||c?.email||'')}</div></td><td>${dateStr(i.createdAt)}</td><td>${dateStr(i.sentAt)}</td><td>${dateStr(ans?.submittedAt||i.completedAt)}</td><td>${stateTag(i.status||'pending')}</td><td><div class="table-actions">${can('resend')?`<button type="button" class="secondary" data-resend-client="${escapeHtml(i.clientId)}">Nova pesquisa</button>`:''}<button type="button" class="secondary" data-view-invite="${escapeHtml(i.id)}">Detalhes</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Nenhum convite encontrado.</td></tr>';}
+$('historySearch').oninput=renderHistory;$('historyStatus').onchange=renderHistory;
+$('themeToggle').onclick=()=>{let dark=document.body.classList.toggle('dark');localStorage.setItem('satisfacaoTheme',dark?'dark':'light');$('themeToggle').textContent=dark?'☀ Claro':'☾ Escuro'};
+if(localStorage.getItem('satisfacaoTheme')==='dark'){$('themeToggle').click()}
+$('fullscreenToggle').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){alert('Tela cheia não está disponível neste navegador.')}};
+$('closeClientModal').onclick=()=>{$('clientModal').classList.add('hidden');editingClientId=null};
+$('clientModal').addEventListener('click',e=>{if(e.target===$('clientModal'))$('closeClientModal').click()});
+$('editClientForm').onsubmit=async e=>{e.preventDefault();if(!can('editClient')||!editingClientId)return;try{await setDoc(doc(db,'clients',editingClientId),{name:$('editClientName').value.trim(),email:$('editClientEmail').value.trim().toLowerCase(),company:$('editClientCompany').value.trim(),updatedAt:serverTimestamp()},{merge:true});$('closeClientModal').click()}catch(err){$('editClientStatus').textContent=err.message}};
+async function resendClient(id){if(!can('resend'))return alert('Sem permissão.');const c=clients.find(x=>x.id===id);if(!c)return alert('Cliente não encontrado.');if(!questions.length)return alert('Cadastre pelo menos uma pergunta.');if(!confirm('Gerar uma nova pesquisa para '+c.name+'? As respostas anteriores serão preservadas.'))return;try{const t=crypto.randomUUID()+crypto.randomUUID();await setDoc(doc(db,'invites',t),{clientId:id,clientName:c.name,email:c.email,status:'pending',createdAt:serverTimestamp(),questions:questions.map(q=>({id:q.id,text:q.text,type:q.type}))});const url=invitationUrl(t);tab('envios');$('inviteResults').innerHTML=`<h3>Nova pesquisa preparada</h3><div class="question"><b>${escapeHtml(c.name)}</b><input readonly value="${escapeHtml(url)}"><button id="sendNewInvite" type="button">Enviar pelo Gmail</button> <button class="secondary" type="button" id="copyNewInvite">Copiar link</button><p id="newInviteStatus" role="status"></p></div>`;$('copyNewInvite').onclick=()=>navigator.clipboard.writeText(url);$('sendNewInvite').onclick=async()=>{let btn=$('sendNewInvite');btn.disabled=true;try{let u=auth.currentUser;if(!u||!u.emailVerified)throw Error('Faça login novamente.');let token=await u.getIdToken();let r=await fetch(EMAIL_WORKER_URL+'/email/send',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({to:c.email,subject:'Pesquisa de satisfação',text:`Olá, ${c.name}! Gostaríamos de ouvir sua opinião. Responda nossa pesquisa: ${url}`})});let data=await r.json().catch(()=>({}));if(!r.ok||data.success===false)throw Error(data.error||'Falha no envio');await setDoc(doc(db,'invites',t),{status:'sent',sentAt:serverTimestamp()},{merge:true});$('newInviteStatus').textContent='E-mail enviado com sucesso.'}catch(err){$('newInviteStatus').textContent='Falha: '+err.message}finally{btn.disabled=false}}}catch(err){alert(err.message)}}
+document.addEventListener('click',async e=>{let b=e.target.closest('button');if(!b)return;let id=b.dataset.editClient;if(id){if(!can('editClient'))return;let c=clients.find(x=>x.id===id);if(!c)return;editingClientId=id;$('editClientName').value=c.name||'';$('editClientEmail').value=c.email||'';$('editClientCompany').value=c.company||'';$('editClientStatus').textContent='';$('clientModal').classList.remove('hidden')}
+if(b.dataset.resendClient)await resendClient(b.dataset.resendClient);
+if(b.dataset.viewInvite){let i=invites.find(x=>x.id===b.dataset.viewInvite),r=responses.find(x=>x.inviteId===b.dataset.viewInvite);if(i)alert('Cliente: '+(i.clientName||'')+'\nSituação: '+(i.status||'Pendente')+'\nCriado: '+dateStr(i.createdAt)+'\nEnviado: '+dateStr(i.sentAt)+'\nRespondido: '+dateStr(r?.submittedAt||i.completedAt)+(r?'\n\nRespostas:\n'+Object.entries(r.answers||{}).map(([k,v])=>(r.questionLabels?.[k]||k)+': '+v).join('\n'):''))}
+});
+// Adiciona botões e filtros às tabelas existentes, sem alterar o modelo do Firestore.
+const oldRender=render;render=function(){oldRender();applyRole();renderHistory();$('clientRows').querySelectorAll('tr').forEach(tr=>{let del=tr.querySelector('[data-delete-client]');if(!del)return;let id=del.dataset.deleteClient;let cell=del.parentElement;cell.classList.add('table-actions');if(can('editClient')){let edit=document.createElement('button');edit.type='button';edit.className='secondary';edit.textContent='Editar';edit.dataset.editClient=id;cell.prepend(edit)}if(can('resend')){let resend=document.createElement('button');resend.type='button';resend.className='secondary';resend.textContent='Nova pesquisa';resend.dataset.resendClient=id;cell.insertBefore(resend,del)}del.classList.toggle('hidden',!can('deleteClient'))});$('questionRows').querySelectorAll('[data-delete-question]').forEach(b=>b.classList.toggle('hidden',!can('deleteQuestion')));$('trackingRows').querySelectorAll('[data-reuse-client]').forEach(b=>b.classList.toggle('hidden',!can('resend')));};
+const oldTab=tab;tab=function(id){if(!permissions[id]?.includes(currentRole))return;oldTab(id);if(id==='acessos')loadUserManagement();document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===id))};
+
+// Camada visual: não altera coleções, regras, autenticação ou rotas de envio.
+const svgIcons={dashboard:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',clientes:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',perguntas:'<path d="M8 10h8M8 14h5"/><rect x="3" y="3" width="18" height="18" rx="3"/>',envios:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',respostas:'<path d="M20 6 9 17l-5-5"/><rect x="2" y="2" width="20" height="20" rx="4"/>',historico:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',acessos:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',logout:'<path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/>'};
+for(const b of document.querySelectorAll('#nav button')){let name=b.dataset.tab||b.id;if(svgIcons[name])b.insertAdjacentHTML('afterbegin',`<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${svgIcons[name]}</svg></span>`)}
+const headerBrand=document.querySelector('header b');headerBrand.innerHTML='<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></span>Pesquisa de Satisfação';
+const decoratedRender=render;
+render=function(){decoratedRender();const symbols=['♙','☷','✉','▤','✓','★','◷','%'];document.querySelectorAll('#metrics .metric').forEach((el,i)=>{if(!el.querySelector('.metric-icon'))el.insertAdjacentHTML('beforeend',`<span class="metric-icon" aria-hidden="true">${symbols[i]||'•'}</span>`)});
+const events=[...responses.map(r=>({kind:'Resposta recebida',name:r.clientName||clients.find(c=>c.id===r.clientId)?.name||'Cliente',date:r.submittedAt,icon:'✓'})),...invites.filter(i=>i.sentAt).map(i=>({kind:'Pesquisa enviada',name:i.clientName||'Cliente',date:i.sentAt,icon:'✉'}))].sort((a,b)=>(b.date?.toMillis?.()||0)-(a.date?.toMillis?.()||0)).slice(0,6);
+$('recentActivity').innerHTML=events.length?events.map(e=>`<div class="activity-item"><span class="activity-dot">${e.icon}</span><div><strong>${escapeHtml(e.kind)}</strong>${escapeHtml(e.name)}<br><small>${dateStr(e.date)}</small></div></div>`).join(''):'<p class="empty">As atividades aparecerão após os primeiros envios e respostas.</p>';
+};
+
+// Gráficos de rosca em SVG: funcionam sem bibliotecas externas e respeitam o tema.
+const chartPalette=['#2563eb','#0891b2','#10b981','#f59e0b','#8b5cf6'];
+function renderProfessionalCharts(){
+ const cards=questions.filter(q=>q.type!=='text');
+ $('charts').innerHTML=cards.length?cards.map(q=>{
+  const opts=q.type==='rating'?['1','2','3','4','5']:['Sim','Não'];
+  const vals=responses.map(r=>r.answers?.[q.id]).filter(v=>opts.includes(String(v))).map(String);
+  const counts=opts.map(v=>vals.filter(x=>x===v).length),total=vals.length;
+  let acc=0;
+  const segments=counts.map((count,i)=>{const start=acc;acc+=count;return count?`<circle cx="80" cy="80" r="58" fill="none" stroke="${chartPalette[i]}" stroke-width="19" stroke-dasharray="${(count/total*364.425).toFixed(3)} ${(364.425-count/total*364.425).toFixed(3)}" stroke-dashoffset="${(-start/total*364.425).toFixed(3)}" transform="rotate(-90 80 80)"/>`:''}).join('');
+  const legend=opts.map((v,i)=>`<div class="legend-row"><span class="legend-dot" style="background:${chartPalette[i]}"></span><span>${q.type==='rating'?'Nota '+v:v}</span><strong>${counts[i]} · ${total?Math.round(counts[i]/total*100):0}%</strong></div>`).join('');
+  return `<div class="chart-card"><div class="chart-title">${escapeHtml(q.text)}</div><div class="chart-subtitle">${total} resposta(s) válida(s)</div><div class="chart-content"><div class="donut-wrap"><svg viewBox="0 0 160 160" role="img" aria-label="Distribuição das respostas para ${escapeHtml(q.text)}"><circle cx="80" cy="80" r="58" fill="none" stroke="var(--line)" stroke-width="19"/>${segments}</svg><div class="donut-center"><strong>${total}</strong><span>respostas</span></div></div><div class="chart-legend">${legend}</div></div></div>`;
+ }).join(''):'<p class="chart-empty">Cadastre perguntas de avaliação para visualizar os gráficos.</p>';
+}
+const previousProfessionalRender=render;
+render=function(){previousProfessionalRender();renderProfessionalCharts();};
+const chartsTitle=document.querySelector('#dashboard .dashboard-widget h3');
+if(chartsTitle)chartsTitle.innerHTML='<span class="chart-heading"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="m7 16 4-5 4 3 5-7"/></svg>Resultados por pergunta</span>';
+const originalShow=show;
+show=function(id){originalShow(id);document.body.classList.toggle('admin-mode',id==='admin')};
+
+
+// Administração de dados: a permissão é verificada novamente pelo Firestore em cada exclusão.
+async function requireAdministratorForMaintenance(){
+  const user=auth?.currentUser;
+  if(!user || !user.emailVerified || currentRole!=='administrador')throw Error('Acesso exclusivo do Administrador.');
+  const record=await getDoc(doc(db,'admins',user.uid));
+  if(!record.exists() || record.data().active!==true || record.data().role!=='administrador')throw Error('Seu perfil não está autorizado.');
+}
+function downloadSurveyBackup(){
+  const data={exportedAt:new Date().toISOString(),projectId:firebaseProjectConfig.projectId,clients,questions,invites,responses};
+  const blob=new Blob([JSON.stringify(data,(key,value)=>value?.seconds!==undefined && value?.nanoseconds!==undefined?{seconds:value.seconds,nanoseconds:value.nanoseconds}:value,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='backup-pesquisa-satisfacao-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$('backupSurveyData').onclick=async()=>{
+  const status=$('dataMaintenanceStatus');
+  try{await requireAdministratorForMaintenance();downloadSurveyBackup();status.textContent='Backup JSON baixado. Guarde o arquivo em local seguro: contém dados de clientes e convites.';}
+  catch(e){status.textContent='Falha no backup: '+e.message;}
+};
+async function deleteSurveyCollections(names){
+  let total=0;
+  for(const name of names){
+    // Busca novamente os documentos no servidor, sem confiar somente no painel.
+    const snap=await getDocs(collection(db,name));
+    const docs=snap.docs;
+    for(let i=0;i<docs.length;i+=400){
+      const batch=writeBatch(db);
+      for(const item of docs.slice(i,i+400))batch.delete(item.ref);
+      await batch.commit();
+      total+=Math.min(400,docs.length-i);
+      $('dataMaintenanceStatus').textContent='Exclusão em andamento: '+total+' registro(s) excluído(s).';
+    }
+  }
+  return total;
+}
+async function runSurveyMaintenance(kind){
+  const status=$('dataMaintenanceStatus');
+  const all=kind==='reset';
+  const names=all?['responses','invites','clients','questions']:['responses','invites'];
+  const title=all?'ZERAR TODOS OS DADOS':'LIMPAR HISTÓRICO';
+  const explanation=all?'clientes, perguntas, convites e respostas':'convites e respostas';
+  const buttons=[$('clearSurveyHistory'),$('resetSurveyData'),$('backupSurveyData')];
+  try{
+    await requireAdministratorForMaintenance();
+    if(!confirm('ATENÇÃO: você vai excluir permanentemente '+explanation+'. As contas e permissões serão mantidas. Deseja continuar?'))return;
+    const typed=prompt('Confirme a operação digitando exatamente: '+title);
+    if(typed!==title){status.textContent='Operação cancelada: confirmação não corresponde.';return;}
+    buttons.forEach(b=>b.disabled=true);
+    status.textContent='Excluindo registros... Não feche a página.';
+    const count=await deleteSurveyCollections(names);
+    status.textContent='Concluído: '+count+' registro(s) excluído(s). As contas de acesso foram preservadas.';
+  }catch(e){status.textContent='Operação interrompida: '+e.message+' Alguns registros podem já ter sido excluídos. Confira o painel.';}
+  finally{buttons.forEach(b=>b.disabled=false);}
+}
+$('clearSurveyHistory').onclick=()=>runSurveyMaintenance('history');
+$('resetSurveyData').onclick=()=>runSurveyMaintenance('reset');
+
+// PWA: botão de instalação somente em dispositivos móveis, quando o navegador oferecer instalação.
+let deferredSurveyInstall=null;
+const isSurveyMobile=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const isSurveyInstalled=()=>window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+function updateSurveyInstallButton(){
+  const btn=$('installSurveyApp');
+  btn.classList.toggle('hidden',!isSurveyMobile()||isSurveyInstalled()||(!deferredSurveyInstall&&!/iPhone|iPad|iPod/i.test(navigator.userAgent)));
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredSurveyInstall=e;updateSurveyInstallButton();});
+window.addEventListener('appinstalled',()=>{deferredSurveyInstall=null;updateSurveyInstallButton();});
+$('installSurveyApp').onclick=async()=>{
+  if(isSurveyInstalled())return;
+  if(deferredSurveyInstall){const event=deferredSurveyInstall;deferredSurveyInstall=null;event.prompt();await event.userChoice;updateSurveyInstallButton();}
+  else if(/iPhone|iPad|iPod/i.test(navigator.userAgent))alert('No Safari, toque em Compartilhar e escolha Adicionar à Tela de Início.');
+};
+updateSurveyInstallButton();
+if('serviceWorker' in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('PWA:',e)));
+
+let saved=JSON.stringify(firebaseProjectConfig);if(saved){try{init(JSON.parse(saved))}catch(e){show('setup');$('setupError').textContent=e.message}}else show('setup');
+
+// Navegação móvel: abrir, fechar, teclado, toque fora e mudança de tela.
+(function(){
+ const openBtn=document.getElementById('mobileMenuToggle');
+ const closeBtn=document.getElementById('mobileMenuClose');
+ const backdrop=document.getElementById('mobileNavBackdrop');
+ const nav=document.getElementById('nav');
+ function closeMenu(){document.body.classList.remove('mobile-menu-open');openBtn.setAttribute('aria-expanded','false');}
+ function openMenu(){if(!document.body.classList.contains('admin-mode'))return;document.body.classList.add('mobile-menu-open');openBtn.setAttribute('aria-expanded','true');const first=nav.querySelector('[data-tab]:not(.hidden)');if(first)first.focus();}
+ openBtn.addEventListener('click',()=>document.body.classList.contains('mobile-menu-open')?closeMenu():openMenu());
+ closeBtn.addEventListener('click',()=>{closeMenu();openBtn.focus()});
+ backdrop.addEventListener('click',closeMenu);
+ nav.addEventListener('click',e=>{if(e.target.closest('[data-tab],#logout'))closeMenu()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('mobile-menu-open')){closeMenu();openBtn.focus()}});
+ window.addEventListener('resize',()=>{if(window.innerWidth>780)closeMenu()});
+ const observer=new MutationObserver(()=>{if(!document.body.classList.contains('admin-mode'))closeMenu()});
+ observer.observe(document.body,{attributes:true,attributeFilter:['class']});
+})();
+</script></body></html>
