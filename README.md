@@ -2,14 +2,12 @@
 
 Portal de pesquisas de satisfação (página única) com Firebase Authentication + Firestore, envio de convites por e-mail via Cloudflare Worker e suporte a PWA.
 
-## Publicação (Firebase Hosting)
-Cada push na branch `main` publica automaticamente em
-https://pesquisa-satisfacao-e3aea.web.app pelo GitHub Actions
-(`.github/workflows/firebase-hosting.yml`).
+## Publicação (GitHub Pages)
+O site é publicado automaticamente a cada push na branch `main`:
+https://eguilherme88-wq.github.io/pesquisa-satisfacao/
 
-Requer o secret `FIREBASE_SERVICE_ACCOUNT` no repositório, com o JSON da
-conta de serviço do projeto (Firebase Console → Configurações do projeto →
-Contas de serviço → Gerar nova chave privada).
+O domínio `eguilherme88-wq.github.io` precisa estar em Firebase Console →
+Authentication → Configurações → Domínios autorizados.
 
 ## Arquivos
 - `index.html` — aplicação completa
