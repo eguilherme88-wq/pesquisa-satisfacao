@@ -621,7 +621,7 @@ let saved=JSON.stringify(firebaseProjectConfig);if(saved){try{init(JSON.parse(sa
  const closeBtn=document.getElementById('mobileMenuClose');
  const backdrop=document.getElementById('mobileNavBackdrop');
  const nav=document.getElementById('nav');
- function closeMenu(){document.body.classList.remove('mobile-menu-open');openBtn.setAttribute('aria-expanded','false');}
+ function closeMenu(){if(document.body.classList.contains('mobile-menu-open'))document.body.classList.remove('mobile-menu-open');if(openBtn.getAttribute('aria-expanded')!=='false')openBtn.setAttribute('aria-expanded','false');}
  function openMenu(){if(!document.body.classList.contains('admin-mode'))return;document.body.classList.add('mobile-menu-open');openBtn.setAttribute('aria-expanded','true');const first=nav.querySelector('[data-tab]:not(.hidden)');if(first)first.focus();}
  openBtn.addEventListener('click',()=>document.body.classList.contains('mobile-menu-open')?closeMenu():openMenu());
  closeBtn.addEventListener('click',()=>{closeMenu();openBtn.focus()});
@@ -629,7 +629,8 @@ let saved=JSON.stringify(firebaseProjectConfig);if(saved){try{init(JSON.parse(sa
  nav.addEventListener('click',e=>{if(e.target.closest('[data-tab],#logout,#installAppNav'))closeMenu()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('mobile-menu-open')){closeMenu();openBtn.focus()}});
  window.addEventListener('resize',()=>{if(window.innerWidth>780)closeMenu()});
- const observer=new MutationObserver(()=>{if(!document.body.classList.contains('admin-mode'))closeMenu()});
+ // Só fecha se o menu estiver aberto: remover uma classe inexistente também dispara o observer e causava repetição infinita (página travada).
+ const observer=new MutationObserver(()=>{if(!document.body.classList.contains('admin-mode')&&document.body.classList.contains('mobile-menu-open'))closeMenu()});
  observer.observe(document.body,{attributes:true,attributeFilter:['class']});
 })();
 </script></body></html>
