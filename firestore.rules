@@ -12,11 +12,12 @@ service cloud.firestore {
     function role() {
       return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role;
     }
-    function master() { return activeUser() && role() == 'master'; }
     function administrador() { return activeUser() && role() == 'administrador'; }
+    function master() { return activeUser() && role() == 'master'; }
     function allowed(section) {
       return activeUser() && (
-        role() in ['master', 'administrador']
+        role() == 'administrador'
+        || role() == 'master'
         || (!exists(/databases/$(database)/documents/settings/accessMatrix)
             && role() == 'administrador')
         || (exists(/databases/$(database)/documents/settings/accessMatrix)
@@ -37,45 +38,44 @@ service cloud.firestore {
         && request.resource.data.permissions.keys().hasAll([
           'dashboard','clientes','perguntas','envios','respostas','historico','relatorios','acessos'
         ])
-        && request.resource.data.permissions.acessos is list
-        && 'administrador' in request.resource.data.permissions.acessos;
+        && request.resource.data.permissions.acessos == ['administrador', 'master'];
     }
     match /admins/{uid} {
-      // Cadastro de perfil comum pendente: não dá acesso aos dados.
-      allow get: if request.auth != null && (request.auth.uid == uid || administrador() || master());
-      allow list: if administrador() || master();
+      allow get: if activeUser() && (request.auth.uid == uid || master() || administrador());
+      allow list: if master() || administrador();
+      // Contas e perfis devem ser gerenciados pela função de servidor.
       allow create: if request.auth != null
         && request.auth.uid == uid
-        && !exists(/databases/$(database)/documents/admins/$(uid))
-        && request.resource.data.keys().hasOnly(['name','email','role','active','createdAt'])
-        && request.resource.data.keys().hasAll(['name','email','role','active','createdAt'])
+        && request.resource.data.keys().hasOnly([
+          'name', 'email', 'role', 'active', 'createdAt'
+        ])
+        && request.resource.data.keys().hasAll([
+          'name', 'email', 'role', 'active', 'createdAt'
+        ])
         && request.resource.data.name is string
-        && request.resource.data.name.size() > 0
-        && request.resource.data.name.size() <= 100
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.role == 'usuario'
         && request.resource.data.active == false
         && request.resource.data.createdAt == request.time;
-      // Somente terceiro: administrador altera perfis; master ativa/desativa usuario.
-      allow update: if request.auth != null
+      allow delete: if false;
+      allow update: if activeUser()
         && request.auth.uid != uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role','active'])
-        && request.resource.data.role in ['administrador','master','usuario']
-        && request.resource.data.active is bool
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'active'])
         && (
           administrador()
-          || (master() && resource.data.role == 'usuario' && request.resource.data.role == 'usuario')
+          && request.resource.data.role in ['administrador', 'master', 'usuario']
+          ||
+          master()
+          && resource.data.role == 'usuario'
+          && request.resource.data.role == 'usuario'
         );
-      allow delete: if false;
     }
     match /settings/accessMatrix {
       allow read: if activeUser();
       allow create, update: if administrador() && validMatrix();
       allow delete: if false;
     }
-    // Identidade visual (logomarca e nome da empresa). Leitura pública para
-    // exibir a logo na tela de login e na página da pesquisa; escrita só por
-    // Administrador ou Master. A logo é uma imagem PNG/JPEG/WEBP em base64.
+    // Identidade visual (logomarca e nome da empresa): leitura publica; escrita por Administrador ou Master.
     match /settings/branding {
       allow get: if true;
       allow list: if false;
@@ -96,12 +96,12 @@ service cloud.firestore {
     match /clients/{id} {
       allow read: if allowed('clientes') || allowed('dashboard') || allowed('relatorios') || allowed('respostas') || allowed('historico');
       allow create, update: if manager('clientes');
-      allow delete: if administrador();
+      allow delete: if administrador() || master();
     }
     match /questions/{id} {
       allow read: if activeUser();
       allow create, update: if manager('perguntas');
-      allow delete: if administrador();
+      allow delete: if administrador() || master();
     }
     match /invites/{id} {
       // O link público é um token aleatório longo: sem esse token não se deve conhecer o ID.
@@ -110,10 +110,11 @@ service cloud.firestore {
       allow list: if activeUser();
       allow create: if manager('envios')
         && request.resource.data.status == 'pending';
-      allow delete: if administrador();
+      allow delete: if administrador() || master();
       // Impede que o painel reabra convites concluídos, exceto pelo Master.
       allow update: if (manager('envios') && resource.data.status != 'completed')
-        || administrador() || master()
+        || administrador()
+        || master()
         || (
           resource.data.status in ['pending','sent']
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','completedAt'])
@@ -125,7 +126,7 @@ service cloud.firestore {
     }
     match /responses/{id} {
       allow read: if allowed('respostas') || allowed('dashboard') || allowed('relatorios') || allowed('historico');
-      allow update, delete: if administrador();
+      allow update, delete: if administrador() || master();
       allow create: if !exists(/databases/$(database)/documents/responses/$(id))
         && exists(/databases/$(database)/documents/invites/$(id))
         && get(/databases/$(database)/documents/invites/$(id)).data.status in ['pending','sent']
