@@ -2,7 +2,7 @@
 // O domínio eguilherme88-wq.github.io é compartilhado por vários apps: este arquivo
 // só cria, usa e apaga caches com o prefixo próprio e só atende arquivos desta pasta.
 const PREFIX = 'pesquisa-satisfacao-';
-const CACHE = PREFIX + 'v2';
+const CACHE = PREFIX + 'v3';
 const SCOPE = new URL('./', self.location).pathname; // /pesquisa-satisfacao/
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 const ASSET_PATHS = ASSETS.map(p => new URL(p, self.location).pathname);

@@ -73,6 +73,26 @@ service cloud.firestore {
       allow create, update: if administrador() && validMatrix();
       allow delete: if false;
     }
+    // Identidade visual (logomarca e nome da empresa). Leitura pública para
+    // exibir a logo na tela de login e na página da pesquisa; escrita só por
+    // Administrador ou Master. A logo é uma imagem PNG/JPEG/WEBP em base64.
+    match /settings/branding {
+      allow get: if true;
+      allow list: if false;
+      allow create, update: if (administrador() || master())
+        && request.resource.data.keys().hasOnly(['logo','companyName','showName','updatedAt','updatedBy'])
+        && request.resource.data.keys().hasAll(['logo','companyName','showName','updatedAt','updatedBy'])
+        && request.resource.data.logo is string
+        && request.resource.data.logo.size() <= 700000
+        && (request.resource.data.logo == ''
+            || request.resource.data.logo.matches('data:image/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+'))
+        && request.resource.data.companyName is string
+        && request.resource.data.companyName.size() <= 80
+        && request.resource.data.showName is bool
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if false;
+    }
     match /clients/{id} {
       allow read: if allowed('clientes') || allowed('dashboard') || allowed('relatorios') || allowed('respostas') || allowed('historico');
       allow create, update: if manager('clientes');

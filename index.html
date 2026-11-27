@@ -1,110 +1,342 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pesquisa de Satisfação</title><meta name="theme-color" content="#14263d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Satisfação"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/icon-192.png"><style>:root{font-family:Inter,Arial,sans-serif;color:#17263a;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}header{background:#103b55;color:white;padding:18px 26px;display:flex;justify-content:space-between;align-items:center}header b{font-size:21px}nav{display:flex;gap:8px;flex-wrap:wrap;padding:15px 22px;background:white;border-bottom:1px solid #ddd}button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;background:#087c87;color:white;font-weight:600}button.secondary{background:#e6edf3;color:#243849}button.danger{background:#b73542}.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#e7edf4;color:#334155}.tag.completed{background:#dcfce7;color:#166534}.tag.sent{background:#dbeafe;color:#1d4ed8}.tag.pending{background:#fef3c7;color:#92400e}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:12px 0}.toolbar>div{min-width:200px;flex:1}.empty{padding:14px;color:#64748b}main{max-width:1180px;margin:25px auto;padding:0 16px}.panel{background:white;border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:0 2px 12px #1c34400c}h2{margin-top:0}input,select,textarea{padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;width:100%;margin:5px 0 12px}label{font-weight:600;font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}.metric{background:#edf7f8;border-radius:12px;padding:18px}.metric strong{display:block;font-size:28px;margin-top:8px}.hidden{display:none!important}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid #e4e9ef;padding:11px;text-align:left}th{background:#f4f7fa}.scroll{overflow:auto}.actions{display:flex;gap:6px;flex-wrap:wrap}.muted{color:#64748b}.bar{background:#e7eef3;border-radius:8px;overflow:hidden;height:12px}.bar span{display:block;background:#0c9398;height:100%}.question{border:1px solid #e0e7ef;padding:16px;border-radius:10px;margin:14px 0}.question label{display:block;margin:9px 0;font-weight:400}.question input[type=radio]{width:auto;margin-right:8px}.notice{background:#e7f5f1;padding:12px;border-radius:8px;margin-bottom:15px}#login{max-width:430px;margin:8vh auto}.small{font-size:12px}footer{text-align:center;padding:20px;color:#6b7280}@media(max-width:650px){header{padding:14px}nav{padding:10px}table{min-width:550px}}
-/* Interface 2.0 */
-:root{--bg:#f3f6fb;--surface:#fff;--ink:#162a40;--sub:#61748a;--line:#e2eaf1;--accent:#087c87;--soft:#edf7f8;--shadow:0 10px 32px rgba(16,45,65,.07);color-scheme:light}
-body{background:var(--bg);color:var(--ink);transition:background .2s,color .2s}
-body.dark{--bg:#0d1726;--surface:#172538;--ink:#e8f1fa;--sub:#a4b5c7;--line:#314357;--accent:#13a5ad;--soft:#203c48;--shadow:0 12px 32px rgba(0,0,0,.18);color-scheme:dark}
-header{background:#103b55;padding:18px 28px;box-shadow:0 4px 20px #071b3018}header b{letter-spacing:-.5px}
-nav{background:var(--surface);border-color:var(--line);padding:13px max(20px,calc((100vw - 1260px)/2));gap:9px}
-nav button{background:transparent;color:var(--sub);padding:11px 14px}nav button:hover,nav button.active{background:var(--soft);color:var(--accent)}
-main{max-width:1280px}.panel{background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--line);border-radius:18px;padding:25px}
-h2{font-size:24px;letter-spacing:-.5px}.metric{background:var(--soft);border:1px solid var(--line);padding:21px;border-radius:14px}.metric strong{font-size:31px}
-input,select,textarea{background:var(--surface);color:var(--ink);border-color:var(--line)}input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
-button{background:var(--accent)}button.secondary{background:var(--soft);color:var(--ink)}
-.question{border-color:var(--line)}th{background:var(--soft);color:var(--ink)}td,th{border-color:var(--line)}.muted,footer,.empty{color:var(--sub)}.notice{background:var(--soft);color:var(--ink)}.bar{background:var(--line)}
-.header-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.header-tools button{padding:8px 10px;background:#ffffff1a;color:#fff;border:1px solid #ffffff40}.header-tools span{font-size:13px}
-.role-pill{border:1px solid var(--line);padding:7px 10px;border-radius:30px;color:var(--sub);font-size:12px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.table-actions{display:flex;gap:5px;flex-wrap:wrap}.table-actions button{font-size:12px;padding:7px 10px}.toolbar input,.toolbar select{margin-bottom:0}
-.modal-overlay{position:fixed;inset:0;background:#081a2eb5;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px}.modal-overlay.hidden{display:none}.modal-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:25px;width:min(100%,530px);max-height:90vh;overflow:auto;box-shadow:0 30px 60px #0003}
-#accessRows input{width:auto;margin:0}.access-table td:not(:first-child),.access-table th:not(:first-child){text-align:center}.access-table input{width:auto}
-@media(max-width:650px){header{padding:14px;align-items:flex-start;gap:10px}header b{font-size:17px}.header-tools span{display:none}nav{padding:9px}main{padding:0 10px;margin:14px auto}.panel{padding:17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{padding:13px}.metric strong{font-size:24px}}
-
-/* Layout executivo 3.0 — sidebar, cards, tabelas e responsividade */
-:root{--sidebar:#ffffff;--sidebar-text:#53657c;--sidebar-hover:#eaf4ff;--primary:#2563eb;--primary-soft:#eaf1ff;--success:#10b981;--radius:16px}
-body.dark{--sidebar:#142237;--sidebar-text:#afbed0;--sidebar-hover:#263c55;--primary:#60a5fa;--primary-soft:#1d3557;--success:#34d399}
-body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);min-height:100vh}
-header{height:70px;position:sticky;top:0;z-index:30;background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line);padding:0 26px;box-shadow:none}
-header b{font-size:19px;font-weight:800;color:var(--ink)}.brand-mark{display:inline-grid;place-items:center;width:35px;height:35px;background:#2563eb;color:white;border-radius:10px;margin-right:9px;font-size:20px}
-.header-tools button{background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:9px}.header-tools span{color:var(--sub)}
-nav#nav{position:fixed;top:70px;bottom:0;left:0;width:240px;z-index:25;background:var(--sidebar);border-right:1px solid var(--line);border-bottom:0;padding:24px 13px;display:flex;flex-direction:column;align-items:stretch;gap:5px;overflow-y:auto;box-shadow:none}
-nav#nav:before{content:'MENU PRINCIPAL';color:var(--sub);font-size:10px;letter-spacing:1.6px;font-weight:800;padding:5px 14px 13px}
-nav#nav button{width:100%;text-align:left;display:flex;align-items:center;gap:13px;border-radius:10px;padding:13px 14px;color:var(--sidebar-text);font-size:13px;font-weight:650;transition:background .15s,color .15s}
-nav#nav button:hover{background:var(--sidebar-hover);color:var(--primary)}nav#nav button.active{background:var(--primary-soft);color:var(--primary)}
-.nav-icon{display:inline-grid;place-items:center;width:21px;height:21px;flex:0 0 21px}.nav-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-nav#nav #logout{margin-top:auto;border-top:1px solid var(--line);border-radius:0;padding-top:19px}
-body.admin-mode main#admin{margin:0 0 0 240px;max-width:none;padding:28px 30px 60px;min-height:calc(100vh - 70px)}
-body.admin-mode footer{margin-left:240px;padding:12px}
-.tab.panel{background:transparent;box-shadow:none;border:0;padding:0;margin:0;max-width:1600px}
-.tab>h2,.section-heading h2{font-size:25px;letter-spacing:-.7px;margin:0 0 24px;font-weight:800}
-.tab>h3{margin:25px 0 14px;font-size:18px}
-#dashboard .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
-.metric{position:relative;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:22px 20px;min-height:125px;font-size:13px;color:var(--sub);font-weight:600;overflow:hidden}
-.metric strong{font-size:31px;color:var(--ink);font-weight:800;letter-spacing:-1px;margin-top:12px}.metric .metric-icon{position:absolute;right:18px;top:17px;width:39px;height:39px;display:grid;place-items:center;background:var(--primary-soft);border-radius:12px;color:var(--primary);font-size:21px}.metric:nth-child(4n+2) .metric-icon{background:#e8f9f3;color:#059669}.metric:nth-child(4n+3) .metric-icon{background:#fff1e8;color:#ea580c}.metric:nth-child(4n) .metric-icon{background:#f4eaff;color:#9333ea}
-#dashboard .dashboard-panels{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(260px,1fr);gap:18px;margin-top:22px}
-.dashboard-widget{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px;min-width:0}
-.dashboard-widget h3{margin:0 0 5px;font-size:17px}.widget-sub{font-size:12px;color:var(--sub);margin:0 0 18px}
-#charts .question{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:8px 0 18px;margin:0 0 13px}#charts .question:last-child{border-bottom:0}
-.bar{height:10px;border-radius:20px;background:var(--soft)}.bar span{background:linear-gradient(90deg,#2563eb,#06b6d4);border-radius:20px}
-.activity-item{display:flex;gap:11px;padding:14px 0;border-bottom:1px solid var(--line);font-size:13px}.activity-item:last-child{border:0}.activity-dot{width:32px;height:32px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);border-radius:10px;flex-shrink:0}.activity-item strong{display:block;margin-bottom:4px}.activity-item small{color:var(--sub)}
-.tab:not(#dashboard){background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:25px;box-shadow:var(--shadow)}
-button{transition:filter .15s,transform .15s}button:hover{filter:brightness(1.07)}button:active{transform:translateY(1px)}button:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
-input,select,textarea{border-radius:9px}th{font-size:12px;letter-spacing:.15px}td{font-size:13px}tr:hover td{background:var(--soft)}.tag{white-space:nowrap}
-#login{margin:8vh auto}body:not(.admin-mode) header{background:#103b55;color:white}body:not(.admin-mode) header b{color:white}
-@media(max-width:1100px){#dashboard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#dashboard .dashboard-panels{grid-template-columns:1fr}}
-@media(max-width:780px){header{height:auto;min-height:65px;padding:10px 13px;flex-wrap:wrap;gap:8px}.header-tools{gap:5px}.header-tools button{font-size:12px;padding:7px}.header-tools span{display:none}nav#nav{position:sticky;top:0;width:100%;height:auto;max-height:none;flex-direction:row;overflow-x:auto;padding:9px 10px;gap:5px;border-right:0;border-bottom:1px solid var(--line)}nav#nav:before{display:none}nav#nav button{width:auto;white-space:nowrap;padding:9px 12px}nav#nav #logout{margin-top:0;border:0;padding:9px 12px}body.admin-mode main#admin{margin:0;padding:18px 12px 40px}body.admin-mode footer{margin-left:0}.nav-icon{width:16px;flex-basis:16px}.nav-icon svg{width:16px;height:16px}}
-@media(max-width:490px){#dashboard .grid{gap:9px}.metric{padding:13px;min-height:100px;font-size:12px}.metric strong{font-size:25px}.metric .metric-icon{right:10px;top:10px;width:29px;height:29px;font-size:16px}.dashboard-widget{padding:14px}.tab:not(#dashboard){padding:15px}}
-
-/* Identidade e visualizações profissionais */
-.brand-mark{vertical-align:middle;color:#fff}.login-brand{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,#2563eb,#0891b2);color:white;margin-bottom:17px;box-shadow:0 12px 25px #2563eb33}
-#forgotPassword{margin-top:8px}.chart-card{padding:18px 0;border-bottom:1px solid var(--line)}.chart-card:last-child{border-bottom:0}.chart-title{font-weight:750;font-size:14px;line-height:1.45;margin-bottom:5px}.chart-subtitle{font-size:12px;color:var(--sub)}.chart-content{display:flex;align-items:center;gap:26px;margin-top:15px;flex-wrap:wrap}.donut-wrap{width:172px;height:172px;flex:0 0 172px;position:relative}.donut-wrap svg{display:block;width:100%;height:100%}.donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}.donut-center strong{font-size:26px;color:var(--ink);line-height:1.1}.donut-center span{font-size:11px;color:var(--sub)}.chart-legend{flex:1;min-width:170px;display:grid;gap:11px}.legend-row{display:grid;grid-template-columns:11px minmax(0,1fr) auto;gap:9px;align-items:center;font-size:13px;color:var(--sub)}.legend-dot{width:10px;height:10px;border-radius:4px}.legend-row strong{color:var(--ink);font-size:12px}.chart-empty{color:var(--sub);font-size:13px;padding:18px 0}.chart-heading{display:flex;align-items:center;gap:8px}.chart-heading svg{color:var(--primary)}@media(max-width:550px){.chart-content{gap:12px}.donut-wrap{width:140px;height:140px;flex-basis:140px}.chart-legend{min-width:140px}}
-
-/* Manutenção administrativa e instalação móvel */
-.admin-data-tools{margin-top:30px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
-.admin-data-tools h3{margin:0 0 10px;font-size:17px}.admin-data-tools .danger{background:#b91c1c}.admin-data-tools .actions{margin:15px 0}
-@media(max-width:780px){.admin-data-tools{padding:14px}}
-
-/* Menu móvel 4.0: gaveta acessível, sem rolagem horizontal */
-#mobileMenuToggle,#mobileMenuClose,#mobileNavBackdrop{display:none}
-@media(max-width:780px){
- body.admin-mode header{position:sticky;top:0;z-index:65;min-height:62px;display:flex;flex-wrap:nowrap;align-items:center;padding:9px 12px;gap:8px}
- header b{font-size:clamp(13px,3.8vw,17px);line-height:1.2;display:flex;align-items:center;min-width:0}
- .brand-mark{width:30px;height:30px;flex-shrink:0;margin-right:6px}
- .header-tools{margin-left:auto;flex-wrap:nowrap;gap:5px}
- .header-tools #fullscreenToggle{display:none}
- .header-tools #themeToggle{font-size:0;padding:8px;min-width:36px;min-height:36px}
- .header-tools #themeToggle::first-letter{font-size:16px}
- .header-tools #roleLabel{display:none!important}
- #mobileMenuToggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--soft);color:var(--ink);border:1px solid var(--line);width:42px;height:42px;padding:0;border-radius:12px;font-size:24px}
- body:not(.admin-mode) #mobileMenuToggle{display:none}
- #mobileNavBackdrop{position:fixed;inset:0;background:rgba(4,13,26,.63);z-index:69}
- body.mobile-menu-open #mobileNavBackdrop{display:block}
- nav#nav{position:fixed;top:0;left:0;bottom:0;z-index:70;width:min(85vw,310px);height:100dvh;max-height:none;padding:72px 13px 18px;display:flex;flex-direction:column;align-items:stretch;gap:5px;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--line);border-bottom:0;box-shadow:10px 0 40px #0003;transform:translateX(-105%);visibility:hidden;transition:transform .23s ease,visibility .23s;overscroll-behavior:contain}
- body.mobile-menu-open nav#nav{transform:translateX(0);visibility:visible}
- nav#nav:before{display:block;content:'MENU PRINCIPAL';padding:5px 14px 13px}
- nav#nav button{width:100%;min-height:48px;white-space:normal;padding:12px 14px;text-align:left;font-size:14px;gap:14px}
- nav#nav #logout{margin-top:auto;border-top:1px solid var(--line);padding-top:17px}
- #mobileMenuClose{display:flex;position:absolute;right:13px;top:15px;width:38px;height:38px;align-items:center;justify-content:center;background:var(--soft);color:var(--ink);font-size:23px;border:1px solid var(--line);padding:0}
- body.admin-mode main#admin{margin:0;padding:16px 12px 36px;min-width:0}
- body.admin-mode footer{margin-left:0}
- .tab.panel,.tab:not(#dashboard){min-width:0}
- .toolbar>div{min-width:min(100%,200px)}
- .scroll{max-width:100%;-webkit-overflow-scrolling:touch}
- body.mobile-menu-open{overflow:hidden}
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pesquisa de Satisfação</title><meta name="theme-color" content="#14263d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Satisfação"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+/* ===== Design system 6.0 — layout corporativo ===== */
+:root{
+ --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+ --bg:#f3f5f9;--surface:#ffffff;--surface-2:#f8fafc;--ink:#0f1b2d;--sub:#5a6a7f;--faint:#8a97a8;
+ --line:#e3e8ef;--line-strong:#cdd6e1;
+ --primary:#1d4ed8;--primary-hover:#1e40af;--primary-soft:#eef3ff;--accent:var(--primary);--soft:#f1f5f9;
+ --success:#047857;--success-soft:#e7f8f0;--warning:#a16207;--warning-soft:#fef6e0;--danger:#c0262d;--danger-soft:#fdecec;--info:#1d4ed8;--info-soft:#e8efff;
+ --sidebar:#ffffff;--sidebar-text:#475569;--sidebar-hover:#f1f5f9;
+ --radius:12px;--radius-sm:8px;
+ --shadow-sm:0 1px 2px rgba(15,27,45,.05);
+ --shadow:0 1px 2px rgba(15,27,45,.04),0 6px 20px rgba(15,27,45,.05);
+ --shadow-lg:0 24px 60px rgba(8,20,40,.22);
+ --header-h:66px;--sidebar-w:260px;
+ font-family:var(--font);color:var(--ink);background:var(--bg);color-scheme:light
 }
-@media(max-width:390px){header b{font-size:13px}.header-tools #themeToggle{display:none}#dashboard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(prefers-reduced-motion:reduce){nav#nav{transition:none!important}}
+body.dark{
+ --bg:#0b1322;--surface:#121d2f;--surface-2:#16233a;--ink:#e6edf6;--sub:#9aabc0;--faint:#71829a;
+ --line:#233350;--line-strong:#30446a;
+ --primary:#5b8cff;--primary-hover:#7aa2ff;--primary-soft:#1a2b4d;--soft:#18263d;
+ --success:#34d399;--success-soft:#0f3b2f;--warning:#fbbf24;--warning-soft:#3d2f0b;--danger:#f87171;--danger-soft:#43171b;--info:#7aa2ff;--info-soft:#1a2b4d;
+ --sidebar:#0f192a;--sidebar-text:#a9b8cc;--sidebar-hover:#18263d;
+ --shadow:0 1px 2px rgba(0,0,0,.25),0 8px 24px rgba(0,0,0,.18);color-scheme:dark
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+.hidden{display:none!important}
+h1,h2,h3{color:var(--ink);letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700;margin:0 0 6px}
+h3{font-size:16px;font-weight:650;margin:26px 0 12px}
+a{color:var(--primary)}
+code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:12px}
+.muted{color:var(--sub)}.small{font-size:12px}.empty{padding:18px;color:var(--sub);text-align:center}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* Menu 5.0: botão fechar só no celular + instalação do app */
+/* Botões */
+button{font:inherit;font-size:13px;font-weight:600;border:1px solid transparent;border-radius:var(--radius-sm);padding:9px 15px;cursor:pointer;background:var(--primary);color:#fff;line-height:1.3;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+button:hover{background:var(--primary-hover)}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 40%,transparent);outline-offset:2px}
+button:disabled{opacity:.55;cursor:not-allowed}
+button.secondary{background:var(--surface);color:var(--ink);border-color:var(--line-strong);box-shadow:var(--shadow-sm)}
+button.secondary:hover{background:var(--soft);border-color:var(--line-strong)}
+button.danger{background:var(--danger);color:#fff}
+button.danger:hover{filter:brightness(.93);background:var(--danger)}
+button + button{margin-left:0}
+.icon-btn{width:38px;height:38px;padding:0;display:inline-grid;place-items:center;background:transparent;color:var(--sub);border:1px solid var(--line);border-radius:10px;box-shadow:none}
+.icon-btn:hover{background:var(--soft);color:var(--ink)}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* Formulários */
+label{font-weight:600;font-size:13px;color:var(--ink)}
+input,select,textarea{font:inherit;font-size:14px;width:100%;padding:10px 12px;margin:6px 0 14px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
+input[type=checkbox],input[type=radio]{width:auto;margin:0 8px 0 0;accent-color:var(--primary)}
+input[readonly]{background:var(--surface-2);color:var(--sub)}
+.toolbar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 16px}
+.toolbar>div{min-width:190px;flex:1}
+.toolbar input,.toolbar select{margin-bottom:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.table-actions{display:flex;gap:6px;flex-wrap:wrap}
+.table-actions button,td button{font-size:12px;padding:6px 10px}
+.check{display:flex;align-items:center;font-weight:500;margin:4px 0 16px;cursor:pointer}
+
+/* Tags */
+.tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:650;background:var(--soft);color:var(--sub);white-space:nowrap;border:1px solid transparent}
+.tag::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8}
+.tag.completed{background:var(--success-soft);color:var(--success)}
+.tag.sent{background:var(--info-soft);color:var(--info)}
+.tag.pending{background:var(--warning-soft);color:var(--warning)}
+.tag.none{background:var(--soft);color:var(--faint)}
+.role-pill{display:inline-block;font-size:11px;font-weight:650;color:var(--primary);background:var(--primary-soft);padding:1px 8px;border-radius:999px}
+
+/* Tabelas */
+.scroll{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{position:sticky;top:0;background:var(--surface-2);color:var(--sub);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface-2)}
+.access-table td:not(:first-child),.access-table th:not(:first-child){text-align:center}
+#accessRows input,.access-table input{width:auto;margin:0}
+#userManagementRows select{width:auto;margin:0 6px 0 0;padding:6px 8px;font-size:12px}
+
+/* Cabeçalho (topbar) */
+body>header{position:sticky;top:0;z-index:40;height:var(--header-h);display:flex;align-items:center;background:var(--surface);border-bottom:1px solid var(--line);color:var(--ink)}
+.brand{display:flex;align-items:center;gap:11px;height:100%;padding:0 20px;min-width:0}
+body.admin-mode .brand{width:var(--sidebar-w);flex:0 0 var(--sidebar-w);border-right:1px solid var(--line)}
+.brand-logo{display:flex;align-items:center;flex-shrink:0}
+.brand-logo img{display:block;max-height:42px;max-width:150px;width:auto;height:auto;object-fit:contain}
+.brand.logo-only .brand-logo img{max-width:210px}
+.brand.has-logo .brand-logo img{max-width:112px}.brand.has-logo.logo-only .brand-logo img{max-width:210px}
+.brand.has-logo #brandSub{display:none}
+.brand.has-logo .brand-text strong{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:13px;line-height:1.25}
+body.dark .brand-logo img,body.dark .survey-brand img,body.dark .login-brand img{background:#fff;padding:4px 7px;border-radius:7px}
+.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1d4ed8,#0e7490);color:#fff;box-shadow:0 4px 10px rgba(29,78,216,.25)}
+.brand-mark svg{width:21px;height:21px}
+.brand-text{display:flex;flex-direction:column;min-width:0;line-height:1.2}
+.brand-text strong{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-text small{font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-title{display:none;flex-direction:column;padding:0 28px;min-width:0;line-height:1.25}
+body.admin-mode .page-title{display:flex}
+.page-title small{font-size:11px;color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.page-title span{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-tools{margin-left:auto;display:flex;align-items:center;gap:8px;padding:0 22px}
+.user-chip{display:none;align-items:center;gap:10px;padding:4px 6px 4px 12px;margin-left:6px;border-left:1px solid var(--line)}
+body.admin-mode .user-chip{display:flex}
+.user-meta{display:flex;flex-direction:column;align-items:flex-end;line-height:1.25;min-width:0}
+.user-meta #who{font-size:12.5px;font-weight:600;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:14px;flex-shrink:0}
+#mobileMenuToggle,#mobileMenuClose,#mobileNavBackdrop{display:none}
+
+/* Menu lateral */
+nav#nav{position:fixed;top:var(--header-h);bottom:0;left:0;width:var(--sidebar-w);z-index:30;background:var(--sidebar);border-right:1px solid var(--line);padding:14px 12px 16px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.nav-group{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);padding:16px 12px 6px}
+.nav-group:first-of-type{padding-top:6px}
+nav#nav button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:transparent;color:var(--sidebar-text);border:0;border-radius:9px;padding:10px 12px;font-size:13.5px;font-weight:550;box-shadow:none;position:relative}
+nav#nav button:hover{background:var(--sidebar-hover);color:var(--ink)}
+nav#nav button.active{background:var(--primary-soft);color:var(--primary);font-weight:650}
+nav#nav button.active::before{content:'';position:absolute;left:-12px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--primary)}
+.nav-icon{display:inline-grid;place-items:center;width:20px;height:20px;flex:0 0 20px}
+.nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav#nav #installAppNav{margin-top:auto;color:var(--primary);background:var(--primary-soft)}
+nav#nav #logout{margin-top:6px;border-top:1px solid var(--line);border-radius:0;padding-top:14px}
+nav#nav #installAppNav.hidden + #logout{margin-top:auto}
 nav#nav #mobileMenuClose{display:none}
-@media(max-width:780px){nav#nav #mobileMenuClose{display:flex;width:38px;min-height:38px;padding:0}}
-nav#nav #installAppNav{color:var(--primary);background:var(--primary-soft);margin-top:auto}
-nav#nav #installAppNav + #logout{margin-top:8px}
+
+/* Área principal */
+main{max-width:1180px;margin:28px auto;padding:0 18px}
+body.admin-mode main#admin{margin:0 0 0 var(--sidebar-w);max-width:none;padding:28px 32px 56px;min-height:calc(100vh - var(--header-h))}
+.tab{max-width:1440px;margin:0 auto}
+.tab.panel{background:transparent;border:0;box-shadow:none;padding:0}
+.tab>h2,.section-heading h2{font-size:22px;margin:0 0 4px}
+.tab>h2+p,.section-heading p{margin:0 0 20px}
+.tab>h2{margin-bottom:4px}.tab>.notice{margin-top:14px}
+.section-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.section-heading h2{margin-bottom:2px}
+.tab:not(#dashboard)>form,.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.notice{background:var(--info-soft);color:var(--ink);border:1px solid color-mix(in srgb,var(--primary) 22%,transparent);padding:12px 14px;border-radius:var(--radius-sm);margin:0 0 18px;font-size:13px}
+.question{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;margin:10px 0}
+.question label{display:block;margin:8px 0;font-weight:500}
+#questionRows .question{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#questionRows .question b{flex:1;min-width:220px;font-weight:600}
+#questionRows .question button{font-size:12px;padding:6px 10px}
+#recipientRows{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:6px 16px;margin:6px 0 14px;max-height:320px;overflow:auto}
+#recipientRows label{font-weight:500;padding:8px 0;border-bottom:1px solid var(--line);margin:0!important}
+#recipientRows label:last-child{border-bottom:0}
+#inviteResults .question input{margin:8px 0}
+
+/* Dashboard */
+#dashboard .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.metric{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px;min-height:112px;box-shadow:var(--shadow-sm);font-size:12.5px;font-weight:600;color:var(--sub);overflow:hidden;padding-right:64px}
+.metric strong{display:block;font-size:28px;font-weight:750;color:var(--ink);letter-spacing:-.02em;margin-top:10px;line-height:1.1}
+.metric .metric-icon{position:absolute;right:16px;top:16px;width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--primary-soft);color:var(--primary)}
+.metric .metric-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.metric:nth-child(4n+2) .metric-icon{background:var(--success-soft);color:var(--success)}
+.metric:nth-child(4n+3) .metric-icon{background:var(--warning-soft);color:var(--warning)}
+.metric:nth-child(4n) .metric-icon{background:#f3ecff;color:#7c3aed}
+body.dark .metric:nth-child(4n) .metric-icon{background:#2b1f4a;color:#b794f6}
+#dashboard .dashboard-panels{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);gap:16px;margin-top:18px}
+.dashboard-widget{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:20px 22px;min-width:0}
+.dashboard-widget h3{margin:0 0 2px;font-size:15px}
+.widget-sub{font-size:12px;color:var(--sub);margin:0 0 12px}
+.chart-card{padding:16px 0;border-bottom:1px solid var(--line)}.chart-card:last-child{border-bottom:0}
+.chart-title{font-weight:650;font-size:13.5px;line-height:1.45;margin-bottom:2px}.chart-subtitle{font-size:12px;color:var(--sub)}
+.chart-content{display:flex;align-items:center;gap:26px;margin-top:12px;flex-wrap:wrap}
+.donut-wrap{width:150px;height:150px;flex:0 0 150px;position:relative}.donut-wrap svg{display:block;width:100%;height:100%}
+.donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
+.donut-center strong{font-size:24px;color:var(--ink);line-height:1.1}.donut-center span{font-size:11px;color:var(--sub)}
+.chart-legend{flex:1;min-width:170px;display:grid;gap:9px}
+.legend-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:9px;align-items:center;font-size:12.5px;color:var(--sub)}
+.legend-dot{width:10px;height:10px;border-radius:3px}.legend-row strong{color:var(--ink);font-size:12px}
+.chart-empty{color:var(--sub);font-size:13px;padding:18px 0}
+.chart-heading{display:flex;align-items:center;gap:8px}.chart-heading svg{color:var(--primary)}
+.bar{background:var(--soft);border-radius:20px;overflow:hidden;height:8px}.bar span{display:block;height:100%;background:var(--primary);border-radius:20px}
+.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.activity-item:last-child{border:0}
+.activity-dot{width:32px;height:32px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);border-radius:9px;flex-shrink:0}
+.activity-item strong{display:block;font-size:13px}.activity-item small{color:var(--faint)}
+
+/* Manutenção / modais */
+.admin-data-tools{margin-top:28px;padding:20px 22px;border:1px solid color-mix(in srgb,var(--danger) 30%,var(--line));border-radius:var(--radius);background:var(--danger-soft)}
+.admin-data-tools h3{margin:0}
+.modal-overlay{position:fixed;inset:0;background:rgba(8,18,34,.6);backdrop-filter:blur(2px);z-index:90;display:flex;align-items:center;justify-content:center;padding:18px}
+.modal-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;width:min(100%,520px);max-height:90vh;overflow:auto;box-shadow:var(--shadow-lg)}
 .install-steps{margin:12px 0 18px;padding-left:20px;line-height:1.6}.install-steps li{margin:6px 0}
 .install-steps kbd{display:inline-block;padding:1px 7px;border:1px solid var(--line);border-radius:6px;background:var(--soft);font:inherit;font-weight:700}
-</style></head><body><header><button id="mobileMenuToggle" type="button" aria-label="Abrir menu" aria-controls="nav" aria-expanded="false">☰</button><b>◈ Pesquisa de Satisfação</b><div class="header-tools"><span id="who">Portal de pesquisas</span><span id="roleLabel" class="role-pill hidden"></span><button id="themeToggle" title="Alternar modo claro e escuro" type="button">☾ Tema</button><button id="fullscreenToggle" title="Alternar tela cheia" type="button">⛶ Tela cheia</button></div></header><section id="login" class="panel hidden"><div class="login-brand" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></div><h2>Acessar Pesquisa de Satisfação</h2><p class="muted">Entre com seu e-mail e senha ou solicite acesso.</p><label>E-mail</label><input id="emailLogin" type="email" placeholder="admin@empresa.com"><label>Senha</label><input id="senhaLogin" type="password"><button id="btnLogin">Entrar</button> <button id="forgotPassword" type="button" class="secondary">Esqueci minha senha</button> <button id="verifyEmail" class="secondary hidden" type="button">Enviar e-mail de verificação</button> <button id="checkVerification" class="secondary hidden" type="button">Já verifiquei meu e-mail</button><p id="loginError" class="muted"></p><div style="margin-top:16px">
+
+/* Login */
+body[data-view=login],body[data-view=setup]{background:radial-gradient(1200px 600px at 10% -10%,color-mix(in srgb,var(--primary) 14%,transparent),transparent 60%),var(--bg)}
+#login{max-width:430px;margin:9vh auto 40px;padding:34px 32px}
+#login h2{font-size:21px}
+#login > button,#login #btnLogin{width:100%;padding:11px;font-size:14px;margin-bottom:8px}
+#login #forgotPassword,#login #verifyEmail,#login #checkVerification{width:100%;margin-bottom:8px}
+#openRegistration{width:100%}
+.login-brand{display:grid;place-items:center;width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,#1d4ed8,#0e7490);color:#fff;margin-bottom:18px;box-shadow:0 10px 24px rgba(29,78,216,.28)}
+.login-brand.has-logo{width:auto;height:auto;background:none;box-shadow:none;place-items:start}
+.login-brand img{max-height:64px;max-width:240px;display:block}
+#loginError{min-height:1em;font-size:13px}
+
+/* Página pública da pesquisa */
+#survey{max-width:760px}
+#survey .panel{padding:32px}
+.survey-brand{display:flex;align-items:center;gap:14px;padding-bottom:18px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.survey-brand img{max-height:56px;max-width:220px}
+.survey-brand strong{font-size:16px}
+#surveyForm .question{padding:18px}
+#surveyForm .question > div{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#surveyForm .question > div label{display:inline-flex;align-items:center;margin:0;padding:10px 16px;border:1px solid var(--line-strong);border-radius:10px;cursor:pointer;min-width:58px;justify-content:center;font-weight:600;background:var(--surface)}
+#surveyForm .question > div label:hover{border-color:var(--primary)}
+#surveyForm .question > div label:has(input:checked){background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}
+#surveyForm textarea{margin-top:10px}
+#surveyForm > button{padding:12px 22px;font-size:14px}
+
+/* Configurações */
+.settings-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:start}
+.settings-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm)}
+.settings-card h3{margin:0 0 4px}
+.settings-card h3:not(:first-child){margin-top:24px}
+.settings-card > p{margin:0 0 16px}
+.dropzone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:26px 18px;border:2px dashed var(--line-strong);border-radius:var(--radius);background:var(--surface-2);cursor:pointer;font-weight:500;color:var(--sub);transition:border-color .15s,background .15s}
+.dropzone:hover,.dropzone.drag{border-color:var(--primary);background:var(--primary-soft)}
+.dropzone svg{width:30px;height:30px;stroke:var(--primary);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dropzone strong{color:var(--primary)}
+.logo-previews{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 6px}
+.logo-preview{border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px 14px}
+.logo-preview span{display:block;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.logo-preview.light{background:#fff;color:#64748b}.logo-preview.dark{background:#0f1b2d;color:#94a3b8;border-color:#0f1b2d}
+.logo-preview > div{height:76px;display:flex;align-items:center;justify-content:center}
+.logo-preview img{max-height:64px;max-width:100%;object-fit:contain}
+.logo-preview.dark img{background:#fff;padding:4px 7px;border-radius:7px}
+.logo-preview em{font-size:12px;font-style:normal;opacity:.75}
+.settings-footer{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);position:sticky;bottom:14px}
+.settings-footer .muted{font-size:13px}
+.unsaved{color:var(--warning)!important;font-weight:600}
+
+/* Relatórios */
+.report-doc{background:#fff;color:#0f1b2d;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 44px;max-width:1000px;margin:0 auto;--line:#e3e8ef;--sub:#5a6a7f;--ink:#0f1b2d;--soft:#f1f5f9}
+.report-doc h1,.report-doc h2,.report-doc h3{color:#0f1b2d}
+.report-head{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding-bottom:22px;border-bottom:3px solid #1d4ed8}
+.report-logo img{max-height:70px;max-width:220px;display:block}
+.report-logo .brand-mark{width:52px;height:52px;border-radius:13px}.report-logo .brand-mark svg{width:28px;height:28px}
+.report-id h1{font-size:21px;margin:0 0 3px;font-weight:750}
+.report-id p{margin:0;color:#5a6a7f;font-size:13px}
+.report-meta{display:grid;gap:4px;text-align:right;font-size:12px;color:#5a6a7f}
+.report-meta b{color:#0f1b2d;font-weight:650}
+.report-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:24px 0 8px}
+.report-kpi{border:1px solid #e3e8ef;border-radius:10px;padding:14px;background:#f8fafc}
+.report-kpi span{display:block;font-size:11px;font-weight:650;color:#5a6a7f;text-transform:uppercase;letter-spacing:.04em}
+.report-kpi strong{display:block;font-size:24px;font-weight:750;margin-top:6px;color:#0f1b2d}
+.report-kpi small{color:#8a97a8;font-size:11px}
+.report-section{font-size:15px;font-weight:700;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid #e3e8ef;color:#0f1b2d}
+.report-q{border:1px solid #e3e8ef;border-radius:10px;padding:16px 18px;margin:0 0 12px;break-inside:avoid}
+.report-q-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:10px}
+.report-q-head b{font-size:13.5px}
+.report-q-head .score{font-size:20px;font-weight:750;color:#1d4ed8;white-space:nowrap}
+.report-q-head .score small{font-size:11px;color:#5a6a7f;font-weight:600}
+.report-bars{display:grid;gap:6px}
+.report-bar{display:grid;grid-template-columns:70px 1fr 90px;gap:10px;align-items:center;font-size:12px;color:#5a6a7f}
+.report-bar .track{height:10px;background:#eef2f7;border-radius:6px;overflow:hidden}
+.report-bar .fill{display:block;height:100%;background:#1d4ed8;border-radius:6px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.report-bar b{color:#0f1b2d;text-align:right}
+.report-comments{margin:0;padding:0;list-style:none}
+.report-comments li{border-left:3px solid #1d4ed8;background:#f8fafc;padding:10px 14px;margin:0 0 8px;border-radius:0 8px 8px 0;font-size:13px;break-inside:avoid}
+.report-comments small{display:block;color:#8a97a8;margin-top:4px}
+.report-doc table{font-size:12px}
+.report-doc th{background:#f1f5f9;color:#5a6a7f;position:static}
+.report-doc td,.report-doc th{border-bottom:1px solid #e3e8ef;padding:9px 10px}
+.report-doc tbody tr:hover td{background:transparent}
+.report-foot{margin-top:30px;padding-top:12px;border-top:1px solid #e3e8ef;display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#8a97a8}
+.report-empty{padding:30px;text-align:center;color:#5a6a7f;border:1px dashed #cdd6e1;border-radius:10px}
+
+body>footer{text-align:center;padding:18px;color:var(--faint);font-size:12px}
+body.admin-mode>footer{margin-left:var(--sidebar-w)}
+
+/* Responsivo */
+@media(max-width:1200px){#dashboard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#dashboard .dashboard-panels{grid-template-columns:1fr}.report-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:980px){.settings-grid{grid-template-columns:1fr}.user-meta{display:none}.page-title{padding:0 18px}}
+@media(max-width:780px){
+ :root{--header-h:60px}
+ body.admin-mode .brand{width:auto;flex:1 1 auto;border-right:0;padding:0 8px}
+ .brand{padding:0 14px}
+ .brand-logo img{max-height:34px;max-width:130px}
+ .brand.logo-only .brand-logo img{max-width:170px}
+ .brand-mark{width:32px;height:32px}
+ .page-title,body.admin-mode .page-title{display:none}
+ .header-tools{padding:0 10px;gap:6px}
+ #fullscreenToggle{display:none}
+ .user-chip{border-left:0;padding:0;margin:0}
+ #mobileMenuToggle{display:inline-grid;margin-left:10px;flex-shrink:0}
+ body:not(.admin-mode) #mobileMenuToggle{display:none}
+ #mobileNavBackdrop{position:fixed;inset:0;background:rgba(4,13,26,.55);z-index:69}
+ body.mobile-menu-open #mobileNavBackdrop{display:block}
+ nav#nav{top:0;z-index:70;width:min(86vw,300px);height:100dvh;padding:64px 12px 18px;transform:translateX(-105%);visibility:hidden;transition:transform .23s ease,visibility .23s;box-shadow:10px 0 40px rgba(0,0,0,.2);overscroll-behavior:contain}
+ body.mobile-menu-open nav#nav{transform:translateX(0);visibility:visible}
+ body.mobile-menu-open{overflow:hidden}
+ nav#nav #mobileMenuClose{display:grid;place-items:center;position:absolute;right:12px;top:12px;width:38px;min-height:38px;padding:0;font-size:22px;background:var(--soft);color:var(--ink);border-radius:10px}
+ nav#nav button{min-height:46px;font-size:14px}
+ nav#nav button.active::before{display:none}
+ body.admin-mode main#admin{margin:0;padding:18px 12px 40px}
+ body.admin-mode>footer{margin-left:0}
+ .toolbar>div{min-width:min(100%,190px)}
+ table{min-width:560px}
+ .report-doc{padding:22px 18px}
+ .report-head{grid-template-columns:1fr;gap:12px}.report-meta{text-align:left}
+ .report-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .report-bar{grid-template-columns:56px 1fr 74px}
+ #login{margin:5vh 12px 30px;padding:26px 20px}
+ #survey .panel{padding:20px}
+ .settings-footer{bottom:8px}
+}
+@media(max-width:490px){#dashboard .grid{gap:10px}.metric{padding:13px;padding-right:46px;min-height:96px;font-size:12px}.metric strong{font-size:23px}.metric .metric-icon{right:10px;top:10px;width:30px;height:30px}.dashboard-widget{padding:15px}.logo-previews{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){nav#nav{transition:none!important}*{transition:none!important}}
+
+/* Impressão do relatório */
+@media print{
+ @page{size:A4;margin:14mm 12mm}
+ body,body.dark{background:#fff!important;color:#0f1b2d}
+ body>header,nav#nav,body>footer,#mobileNavBackdrop,.no-print,.modal-overlay,main#survey{display:none!important}
+ body.admin-mode main#admin{margin:0!important;padding:0!important;min-height:0}
+ .tab:not(#relatorios){display:none!important}
+ #relatorios{max-width:none}
+ .report-doc{border:0;box-shadow:none;padding:0;max-width:none;border-radius:0}
+ .report-kpi,.report-q,.report-comments li,.report-doc th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .report-doc table{min-width:0}
+ .report-doc tr{break-inside:avoid}
+ .report-kpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+ .report-head{grid-template-columns:auto 1fr auto!important}.report-meta{text-align:right!important}
+ .report-kpi strong{font-size:20px}
+}
+
+</style></head><body><header><button id="mobileMenuToggle" class="icon-btn" type="button" aria-label="Abrir menu" aria-controls="nav" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="brand" id="brand"><span class="brand-logo" id="brandLogo"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></span></span><span class="brand-text" id="brandText"><strong id="brandName">Pesquisa de Satisfação</strong><small id="brandSub">Portal de gestão</small></span></div><div class="page-title"><small id="pageSection">Visão geral</small><span id="pageTitle">Dashboard</span></div><div class="header-tools"><button id="themeToggle" class="icon-btn" title="Alternar modo claro e escuro" aria-label="Alternar tema" type="button"></button><button id="fullscreenToggle" class="icon-btn" title="Alternar tela cheia" aria-label="Tela cheia" type="button"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><div class="user-chip"><span class="user-meta"><span id="who">Portal de pesquisas</span><span id="roleLabel" class="role-pill hidden"></span></span><span class="avatar" id="userAvatar" aria-hidden="true">•</span></div></div></header><section id="login" class="panel hidden"><div class="login-brand" id="loginBrand" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></div><h2>Acessar Pesquisa de Satisfação</h2><p class="muted">Entre com seu e-mail e senha ou solicite acesso.</p><label>E-mail</label><input id="emailLogin" type="email" placeholder="admin@empresa.com"><label>Senha</label><input id="senhaLogin" type="password"><button id="btnLogin">Entrar</button> <button id="forgotPassword" type="button" class="secondary">Esqueci minha senha</button> <button id="verifyEmail" class="secondary hidden" type="button">Enviar e-mail de verificação</button> <button id="checkVerification" class="secondary hidden" type="button">Já verifiquei meu e-mail</button><p id="loginError" class="muted"></p><div style="margin-top:16px">
 <button id="openRegistration" type="button" class="secondary">
 Criar minha conta
 </button>
 </div>
-<form id="selfRegistration" class="hidden" style="margin-top:15px;border-top:1px solid var(--line);padding-top:15px"><h3>Solicitar acesso</h3><label>Nome</label><input id="registrationName" maxlength="100" required><label>E-mail</label><input id="registrationEmail" type="email" required><label>Senha (mínimo 12 caracteres)</label><input id="registrationPassword" type="password" minlength="12" autocomplete="new-password" required><button id="submitRegistration" type="submit">Enviar cadastro</button> <button id="cancelRegistration" class="secondary" type="button">Cancelar</button><p id="registrationMessage" class="muted" role="status"></p></form><p class="small">A conta deve ter o e-mail verificado e estar autorizada pelas regras do Firestore.</p></section><section id="setup" class="panel hidden" style="max-width:700px;margin:35px auto"><h2>Configurar Firebase</h2><p>Preencha os dados do seu projeto Firebase Web. Esta configuração fica armazenada apenas neste navegador. Configure as regras de segurança antes de utilizar dados reais.</p><textarea id="firebaseConfig" rows="8" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'></textarea><button id="saveConfig">Salvar configuração</button><p id="setupError"></p></section><div id="mobileNavBackdrop" aria-hidden="true"></div><nav id="nav" class="hidden" aria-label="Menu principal"><button id="mobileMenuClose" type="button" aria-label="Fechar menu">×</button><button data-tab="dashboard">Dashboard</button><button data-tab="clientes">Clientes</button><button data-tab="perguntas">Perguntas</button><button data-tab="envios">Enviar pesquisas</button><button data-tab="respostas">Respostas</button><button data-tab="historico">Histórico</button><button data-tab="acessos">Acessos</button><button id="installAppNav" type="button" class="hidden" title="Instalar este sistema como aplicativo">Instalar app</button><button id="logout" class="secondary">Sair</button></nav><div id="installModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installTitle"><div class="modal-card"><h2 id="installTitle">Instalar o aplicativo</h2><div id="installBody"></div><div class="actions"><button type="button" id="installModalOk">Entendi</button></div></div></div><main id="admin" class="hidden"><section id="dashboard" class="tab panel"><h2>Dashboard de satisfação</h2><div id="metrics" class="grid"></div><div class="dashboard-panels"><div class="dashboard-widget"><h3>Resultados por pergunta</h3><p class="widget-sub">Distribuição das avaliações recebidas</p><div id="charts"></div></div><div class="dashboard-widget"><h3>Atividades recentes</h3><p class="widget-sub">Últimos registros das pesquisas</p><div id="recentActivity"></div></div></div></section><section id="clientes" class="tab panel hidden"><h2>Cadastro de clientes</h2><form id="clientForm"><div class="grid"><div><label>Nome</label><input id="clientName" required></div><div><label>E-mail</label><input id="clientEmail" type="email" required></div><div><label>Empresa (opcional)</label><input id="clientCompany"></div></div><button id="clientSubmit">Adicionar cliente</button><button id="cancelClientEdit" class="secondary hidden" type="button">Cancelar edição</button></form><h3>Clientes cadastrados</h3><div class="scroll"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Situação</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="clientRows"></tbody></table></div></section><section id="perguntas" class="tab panel hidden"><h2>Cadastro de perguntas</h2><form id="questionForm"><label>Pergunta</label><input id="questionText" required><label>Tipo de resposta</label><select id="questionType"><option value="rating">Nota de 1 a 5</option><option value="yesno">Sim / Não</option><option value="text">Texto livre</option></select><button>Adicionar pergunta</button></form><h3>Perguntas ativas</h3><div id="questionRows"></div></section><section id="envios" class="tab panel hidden"><h2>Disparo de pesquisas</h2><p class="notice">Gere convites individuais e envie por e-mail. O envio automático requer que o Cloudflare Worker valide o login do administrador e esteja configurado para enviar pelo Gmail.</p><label>Endereço público do sistema (URL do site publicado)</label><input id="baseUrl" placeholder="https://seu-site.web.app/"><label>Selecionar destinatários</label><div class="actions"><button id="allClients" class="secondary" type="button">Selecionar todos</button><button id="noneClients" class="secondary" type="button">Limpar seleção</button></div><div id="recipientRows"></div><button id="generateInvites">Gerar convites selecionados</button><div id="inviteResults"></div><h3>Histórico e acompanhamento</h3><div class="toolbar"><div><label>Pesquisar cliente</label><input id="trackSearch" placeholder="Nome ou e-mail"></div><div><label>Situação</label><select id="trackFilter"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option><option value="none">Sem convite</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>E-mail</th><th>Situação</th><th>Convites</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="trackingRows"></tbody></table></div><p id="trackStatus" class="muted" role="status"></p></section><section id="respostas" class="tab panel hidden"><h2>Respostas recebidas</h2><div class="toolbar"><div><label>Buscar cliente</label><input id="responseSearch" placeholder="Nome ou e-mail"></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Data</th><th>Respostas</th></tr></thead><tbody id="responseRows"></tbody></table></div></section><section id="historico" class="tab panel hidden"><div class="section-heading"><h2>Histórico de pesquisas</h2><span class="muted">Todos os convites e respostas permanecem registrados</span></div><div class="toolbar"><div><label>Buscar cliente</label><input id="historySearch" placeholder="Nome, e-mail ou empresa"></div><div><label>Situação</label><select id="historyStatus"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Convite</th><th>Enviado em</th><th>Respondido em</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="historyRows"></tbody></table></div></section><section id="acessos" class="tab panel hidden"><h2>Matriz de acesso</h2><p class="muted">Permissões de interface. Para segurança real, aplique as mesmas restrições nas regras do Firestore e na validação do Worker.</p><div class="scroll"><table class="access-table"><thead><tr><th>Funcionalidade</th><th>Master</th><th>Administrador</th><th>Usuário</th></tr></thead><tbody id="accessRows"></tbody></table></div><h3>Usuários autorizados</h3><p class="muted">Os perfis são definidos na coleção <code>admins</code> do Firestore. Use o campo <code>role</code> com valor <code>master</code>, <code>administrador</code> ou <code>usuario</code>. Não altere o UID nem remova o campo <code>active</code>.</p><p id="roleHelp"></p>
+<form id="selfRegistration" class="hidden" style="margin-top:15px;border-top:1px solid var(--line);padding-top:15px"><h3>Solicitar acesso</h3><label>Nome</label><input id="registrationName" maxlength="100" required><label>E-mail</label><input id="registrationEmail" type="email" required><label>Senha (mínimo 12 caracteres)</label><input id="registrationPassword" type="password" minlength="12" autocomplete="new-password" required><button id="submitRegistration" type="submit">Enviar cadastro</button> <button id="cancelRegistration" class="secondary" type="button">Cancelar</button><p id="registrationMessage" class="muted" role="status"></p></form><p class="small">A conta deve ter o e-mail verificado e estar autorizada pelas regras do Firestore.</p></section><section id="setup" class="panel hidden" style="max-width:700px;margin:35px auto"><h2>Configurar Firebase</h2><p>Preencha os dados do seu projeto Firebase Web. Esta configuração fica armazenada apenas neste navegador. Configure as regras de segurança antes de utilizar dados reais.</p><textarea id="firebaseConfig" rows="8" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'></textarea><button id="saveConfig">Salvar configuração</button><p id="setupError"></p></section><div id="mobileNavBackdrop" aria-hidden="true"></div><nav id="nav" class="hidden" aria-label="Menu principal"><button id="mobileMenuClose" type="button" aria-label="Fechar menu">×</button><div class="nav-group">Visão geral</div><button data-tab="dashboard">Dashboard</button><div class="nav-group">Operação</div><button data-tab="clientes">Clientes</button><button data-tab="perguntas">Perguntas</button><button data-tab="envios">Enviar pesquisas</button><div class="nav-group">Análise</div><button data-tab="respostas">Respostas</button><button data-tab="historico">Histórico</button><button data-tab="relatorios">Relatórios</button><div class="nav-group">Administração</div><button data-tab="acessos">Acessos</button><button data-tab="configuracoes">Configurações</button><button id="installAppNav" type="button" class="hidden" title="Instalar este sistema como aplicativo">Instalar app</button><button id="logout" class="secondary">Sair</button></nav><div id="installModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installTitle"><div class="modal-card"><h2 id="installTitle">Instalar o aplicativo</h2><div id="installBody"></div><div class="actions"><button type="button" id="installModalOk">Entendi</button></div></div></div><main id="admin" class="hidden"><section id="dashboard" class="tab panel"><h2>Dashboard de satisfação</h2><p class="muted">Acompanhe os indicadores das pesquisas em tempo real.</p><div id="metrics" class="grid"></div><div class="dashboard-panels"><div class="dashboard-widget"><h3>Resultados por pergunta</h3><p class="widget-sub">Distribuição das avaliações recebidas</p><div id="charts"></div></div><div class="dashboard-widget"><h3>Atividades recentes</h3><p class="widget-sub">Últimos registros das pesquisas</p><div id="recentActivity"></div></div></div></section><section id="clientes" class="tab panel hidden"><h2>Cadastro de clientes</h2><p class="muted">Cadastre e mantenha a base de clientes que recebem as pesquisas.</p><form id="clientForm"><div class="grid"><div><label>Nome</label><input id="clientName" required></div><div><label>E-mail</label><input id="clientEmail" type="email" required></div><div><label>Empresa (opcional)</label><input id="clientCompany"></div></div><button id="clientSubmit">Adicionar cliente</button><button id="cancelClientEdit" class="secondary hidden" type="button">Cancelar edição</button></form><h3>Clientes cadastrados</h3><div class="scroll"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Situação</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="clientRows"></tbody></table></div></section><section id="perguntas" class="tab panel hidden"><h2>Cadastro de perguntas</h2><p class="muted">Defina as perguntas enviadas nas próximas pesquisas.</p><form id="questionForm"><label>Pergunta</label><input id="questionText" required><label>Tipo de resposta</label><select id="questionType"><option value="rating">Nota de 1 a 5</option><option value="yesno">Sim / Não</option><option value="text">Texto livre</option></select><button>Adicionar pergunta</button></form><h3>Perguntas ativas</h3><div id="questionRows"></div></section><section id="envios" class="tab panel hidden"><h2>Disparo de pesquisas</h2><p class="notice">Gere convites individuais e envie por e-mail. O envio automático requer que o Cloudflare Worker valide o login do administrador e esteja configurado para enviar pelo Gmail.</p><label>Endereço público do sistema (URL do site publicado)</label><input id="baseUrl" placeholder="https://seu-site.web.app/"><label>Selecionar destinatários</label><div class="actions"><button id="allClients" class="secondary" type="button">Selecionar todos</button><button id="noneClients" class="secondary" type="button">Limpar seleção</button></div><div id="recipientRows"></div><button id="generateInvites">Gerar convites selecionados</button><div id="inviteResults"></div><h3>Histórico e acompanhamento</h3><div class="toolbar"><div><label>Pesquisar cliente</label><input id="trackSearch" placeholder="Nome ou e-mail"></div><div><label>Situação</label><select id="trackFilter"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option><option value="none">Sem convite</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>E-mail</th><th>Situação</th><th>Convites</th><th>Último envio</th><th>Última resposta</th><th>Ações</th></tr></thead><tbody id="trackingRows"></tbody></table></div><p id="trackStatus" class="muted" role="status"></p></section><section id="respostas" class="tab panel hidden"><h2>Respostas recebidas</h2><p class="muted">Consulte as respostas enviadas pelos clientes.</p><div class="toolbar"><div><label>Buscar cliente</label><input id="responseSearch" placeholder="Nome ou e-mail"></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Data</th><th>Respostas</th></tr></thead><tbody id="responseRows"></tbody></table></div></section><section id="historico" class="tab panel hidden"><div class="section-heading"><h2>Histórico de pesquisas</h2><span class="muted">Todos os convites e respostas permanecem registrados</span></div><div class="toolbar"><div><label>Buscar cliente</label><input id="historySearch" placeholder="Nome, e-mail ou empresa"></div><div><label>Situação</label><select id="historyStatus"><option value="all">Todas</option><option value="completed">Respondido</option><option value="sent">Enviado</option><option value="pending">Pendente</option></select></div></div><div class="scroll"><table><thead><tr><th>Cliente</th><th>Convite</th><th>Enviado em</th><th>Respondido em</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="historyRows"></tbody></table></div></section><section id="acessos" class="tab panel hidden"><h2>Acessos</h2><p class="muted">Permissões de interface. Para segurança real, aplique as mesmas restrições nas regras do Firestore e na validação do Worker.</p><div class="scroll"><table class="access-table"><thead><tr><th>Funcionalidade</th><th>Master</th><th>Administrador</th><th>Usuário</th></tr></thead><tbody id="accessRows"></tbody></table></div><h3>Usuários autorizados</h3><p class="muted">Os perfis são definidos na coleção <code>admins</code> do Firestore. Use o campo <code>role</code> com valor <code>master</code>, <code>administrador</code> ou <code>usuario</code>. Não altere o UID nem remova o campo <code>active</code>.</p><p id="roleHelp"></p>
 <div id="userManagement" style="margin-top:24px">
   <h3>Gerenciar Usuários</h3>
   <p class="muted">Novos cadastros entram como Usuário inativo. O administrador aprova a conta e pode definir o perfil depois da criação.</p>
@@ -152,7 +384,7 @@ Criar minha conta
 </div>
 <p id="userManagementMessage" class="muted"></p>
 </div>
-<div id="adminDataTools" class="admin-data-tools hidden"><div class="section-heading"><h3>Manutenção dos dados</h3><span class="tag">Somente Administrador</span></div><p class="muted">Estas operações excluem dados permanentemente do Firebase. Faça um backup antes de prosseguir. As contas de usuários e as permissões serão preservadas.</p><div class="actions"><button type="button" id="backupSurveyData" class="secondary">Exportar backup JSON</button><button type="button" id="clearSurveyHistory" class="danger">Limpar histórico</button><button type="button" id="resetSurveyData" class="danger">Zerar dados do sistema</button></div><p id="dataMaintenanceStatus" role="status" aria-live="polite" class="muted"></p></div></section></main><div id="clientModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Editar cliente"><div class="modal-card"><h2>Editar cliente</h2><form id="editClientForm"><label>Nome</label><input id="editClientName" required><label>E-mail</label><input id="editClientEmail" type="email" required><label>Empresa</label><input id="editClientCompany"><div class="actions"><button type="submit">Salvar alterações</button><button type="button" class="secondary" id="closeClientModal">Cancelar</button></div></form><p id="editClientStatus" role="status"></p></div></div><main id="survey" class="hidden"><div class="panel"><h2>Pesquisa de satisfação</h2><p id="surveyIntro"></p><form id="surveyForm"></form><div id="surveyDone"></div></div></main><footer>Pesquisa de Satisfação • Firebase</footer><script type="module">
+<div id="adminDataTools" class="admin-data-tools hidden"><div class="section-heading"><h3>Manutenção dos dados</h3><span class="tag">Somente Administrador</span></div><p class="muted">Estas operações excluem dados permanentemente do Firebase. Faça um backup antes de prosseguir. As contas de usuários e as permissões serão preservadas.</p><div class="actions"><button type="button" id="backupSurveyData" class="secondary">Exportar backup JSON</button><button type="button" id="clearSurveyHistory" class="danger">Limpar histórico</button><button type="button" id="resetSurveyData" class="danger">Zerar dados do sistema</button></div><p id="dataMaintenanceStatus" role="status" aria-live="polite" class="muted"></p></div></section><section id="relatorios" class="tab panel hidden"><div class="section-heading no-print"><div><h2>Relatórios</h2><p class="muted">Relatório consolidado com a sua logomarca, pronto para imprimir ou salvar em PDF.</p></div><div class="actions"><button type="button" class="secondary" id="exportReportCsv">Exportar CSV</button><button type="button" id="printReport">Imprimir / Salvar PDF</button></div></div><div class="toolbar no-print card" style="margin-bottom:20px"><div><label for="reportPreset">Período</label><select id="reportPreset"><option value="all">Todo o período</option><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="month">Este mês</option><option value="year">Este ano</option><option value="custom">Personalizado</option></select></div><div><label for="reportFrom">De</label><input type="date" id="reportFrom"></div><div><label for="reportTo">Até</label><input type="date" id="reportTo"></div><div><label for="reportClient">Cliente</label><select id="reportClient"><option value="all">Todos os clientes</option></select></div></div><article id="reportDoc" class="report-doc"></article></section><section id="configuracoes" class="tab panel hidden"><div class="section-heading"><div><h2>Configurações</h2><p class="muted">Personalize a identidade visual do portal, da página de pesquisa e dos relatórios.</p></div></div><div class="settings-grid"><div class="settings-card"><h3>Logomarca</h3><p class="muted small">Exibida no canto superior esquerdo, na tela de acesso, na página da pesquisa e no cabeçalho dos relatórios. Use PNG com fundo transparente, SVG, JPG ou WEBP (até 5 MB) — a imagem é otimizada automaticamente.</p><label class="dropzone" id="logoDrop" for="logoInput"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg><span><strong>Clique para escolher</strong> ou arraste a imagem aqui</span><span class="small">Recomendado: formato horizontal, mínimo 300 px de largura</span></label><input type="file" id="logoInput" class="visually-hidden" accept="image/png,image/jpeg,image/webp,image/svg+xml"><div class="logo-previews"><div class="logo-preview light"><span>Fundo claro</span><div id="logoPreviewLight"></div></div><div class="logo-preview dark"><span>Fundo escuro</span><div id="logoPreviewDark"></div></div></div><div class="actions"><button type="button" class="secondary" id="removeLogo">Remover logomarca</button></div></div><div class="settings-card"><h3>Dados da empresa</h3><p class="muted small">O nome aparece no topo, nos relatórios e na página da pesquisa.</p><label for="companyNameInput">Nome da empresa</label><input id="companyNameInput" maxlength="80" placeholder="Ex.: Minha Empresa Ltda."><label class="check"><input type="checkbox" id="showCompanyName" checked>Exibir o nome ao lado da logomarca no topo</label><h3>Aparência</h3><p class="muted small">Preferência salva apenas neste navegador.</p><label for="themeSelect">Tema</label><select id="themeSelect"><option value="light">Claro</option><option value="dark">Escuro</option></select></div></div><div class="settings-footer"><button type="button" id="saveBranding">Salvar configurações</button><button type="button" class="secondary" id="discardBranding">Descartar alterações</button><span id="brandingStatus" class="muted" role="status" aria-live="polite"></span></div></section></main><div id="clientModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Editar cliente"><div class="modal-card"><h2>Editar cliente</h2><form id="editClientForm"><label>Nome</label><input id="editClientName" required><label>E-mail</label><input id="editClientEmail" type="email" required><label>Empresa</label><input id="editClientCompany"><div class="actions"><button type="submit">Salvar alterações</button><button type="button" class="secondary" id="closeClientModal">Cancelar</button></div></form><p id="editClientStatus" role="status"></p></div></div><main id="survey" class="hidden"><div class="panel"><div id="surveyBrand" class="survey-brand hidden"></div><h2>Pesquisa de satisfação</h2><p id="surveyIntro"></p><form id="surveyForm"></form><div id="surveyDone"></div></div></main><footer id="appFooter">Pesquisa de Satisfação</footer><script type="module">
 import {initializeApp,deleteApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendEmailVerification,sendPasswordResetEmail,reload} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,writeBatch,onSnapshot,query,where,serverTimestamp,runTransaction} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
@@ -184,7 +416,7 @@ async function loadSurvey(){show('survey');try{let ref=doc(db,'invites',token),s
 // Experiência, perfis e histórico: dados anteriores são preservados.
 let currentRole='usuario',editingClientId=null;
 const roleNames={master:'Master',administrador:'Administrador',usuario:'Usuário'};
-const permissions={dashboard:['master','administrador','usuario'],clientes:['master','administrador'],perguntas:['master','administrador'],envios:['master','administrador'],respostas:['master','administrador','usuario'],historico:['master','administrador','usuario'],acessos:['administrador','master']};
+const permissions={dashboard:['master','administrador','usuario'],clientes:['master','administrador'],perguntas:['master','administrador'],envios:['master','administrador'],respostas:['master','administrador','usuario'],historico:['master','administrador','usuario'],relatorios:['master','administrador','usuario'],acessos:['administrador','master'],configuracoes:['administrador','master']};
 const can=(action)=>({editClient:['master','administrador'],deleteClient:['master','administrador'],editQuestion:['master','administrador'],deleteQuestion:['master','administrador'],send:['master','administrador'],resend:['master','administrador'],access:['administrador']}[action]||[]).includes(currentRole);
 function applyRole(){document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('hidden',!permissions[b.dataset.tab]?.includes(currentRole))});$('roleLabel').classList.remove('hidden');$('roleLabel').textContent=roleNames[currentRole];$('clientForm').classList.toggle('hidden',!can('editClient'));$('questionForm').classList.toggle('hidden',!can('editQuestion'));$('generateInvites').disabled=!can('send');$('adminDataTools').classList.toggle('hidden',currentRole!=='administrador');$('roleHelp').textContent='Perfil conectado: '+roleNames[currentRole]+'. Novas contas ficam inativas até aprovação. Administrador pode alterar perfis; Master pode ativar/desativar usuários comuns.';renderAccessMatrix();}
 
@@ -452,15 +684,17 @@ $('selfRegistration').onsubmit=async event=>{
   catch(e){msg.textContent='Erro: '+e.message}finally{btn.disabled=false}
 };
 
-function renderAccessMatrix(){configureUserCreateForm();let labels={dashboard:'Visualizar dashboard',clientes:'Gerenciar clientes',perguntas:'Gerenciar perguntas',envios:'Enviar pesquisas',respostas:'Consultar respostas',historico:'Consultar histórico',acessos:'Gerenciar acessos'};$('accessRows').innerHTML=Object.entries(labels).map(([key,label])=>`<tr><td>${label}</td>${['master','administrador','usuario'].map(role=>`<td>${permissions[key].includes(role)?'✓':'—'}</td>`).join('')}</tr>`).join('');}
+function renderAccessMatrix(){configureUserCreateForm();let labels={dashboard:'Visualizar dashboard',clientes:'Gerenciar clientes',perguntas:'Gerenciar perguntas',envios:'Enviar pesquisas',respostas:'Consultar respostas',historico:'Consultar histórico',relatorios:'Emitir relatórios',acessos:'Gerenciar acessos',configuracoes:'Configurações e logomarca'};$('accessRows').innerHTML=Object.entries(labels).map(([key,label])=>`<tr><td>${label}</td>${['master','administrador','usuario'].map(role=>`<td>${permissions[key].includes(role)?'✓':'—'}</td>`).join('')}</tr>`).join('');}
 function renderHistory(){let term=($('historySearch').value||'').toLowerCase(),status=$('historyStatus').value;let filtered=invites.filter(i=>{let c=clients.find(x=>x.id===i.clientId);return (status==='all'||i.status===status)&&((i.clientName||c?.name||'')+' '+(i.email||c?.email||'')+' '+(c?.company||'')).toLowerCase().includes(term)}).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));$('historyRows').innerHTML=filtered.map(i=>{let c=clients.find(x=>x.id===i.clientId),ans=responses.find(r=>r.inviteId===i.id);return `<tr><td><b>${escapeHtml(i.clientName||c?.name||'Cliente')}</b><div class="small muted">${escapeHtml(i.email||c?.email||'')}</div></td><td>${dateStr(i.createdAt)}</td><td>${dateStr(i.sentAt)}</td><td>${dateStr(ans?.submittedAt||i.completedAt)}</td><td>${stateTag(i.status||'pending')}</td><td><div class="table-actions">${can('resend')?`<button type="button" class="secondary" data-resend-client="${escapeHtml(i.clientId)}">Nova pesquisa</button>`:''}<button type="button" class="secondary" data-view-invite="${escapeHtml(i.id)}">Detalhes</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Nenhum convite encontrado.</td></tr>';}
 $('historySearch').oninput=renderHistory;$('historyStatus').onchange=renderHistory;
 // Chave com prefixo próprio: o localStorage é compartilhado por todos os apps de eguilherme88-wq.github.io.
 const THEME_KEY='pesquisa-satisfacao:tema';
 const storageGet=k=>{try{return localStorage.getItem(k)}catch{return null}},storageSet=(k,v)=>{try{localStorage.setItem(k,v)}catch{}};
 if(!storageGet(THEME_KEY)&&storageGet('satisfacaoTheme')){storageSet(THEME_KEY,storageGet('satisfacaoTheme'));try{localStorage.removeItem('satisfacaoTheme')}catch{}}
-$('themeToggle').onclick=()=>{let dark=document.body.classList.toggle('dark');storageSet(THEME_KEY,dark?'dark':'light');$('themeToggle').textContent=dark?'☀ Claro':'☾ Escuro'};
-if(storageGet(THEME_KEY)==='dark'){$('themeToggle').click()}
+const THEME_ICONS={moon:'<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>',sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'};
+function setTheme(dark){document.body.classList.toggle('dark',dark);storageSet(THEME_KEY,dark?'dark':'light');$('themeToggle').innerHTML=dark?THEME_ICONS.sun:THEME_ICONS.moon;$('themeToggle').title=dark?'Usar tema claro':'Usar tema escuro';const sel=$('themeSelect');if(sel)sel.value=dark?'dark':'light'}
+$('themeToggle').onclick=()=>setTheme(!document.body.classList.contains('dark'));
+setTheme(storageGet(THEME_KEY)==='dark');
 $('fullscreenToggle').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){alert('Tela cheia não está disponível neste navegador.')}};
 $('closeClientModal').onclick=()=>{$('clientModal').classList.add('hidden');editingClientId=null};
 $('clientModal').addEventListener('click',e=>{if(e.target===$('clientModal'))$('closeClientModal').click()});
@@ -475,11 +709,11 @@ const oldRender=render;render=function(){oldRender();applyRole();renderHistory()
 const oldTab=tab;tab=function(id){if(!permissions[id]?.includes(currentRole))return;oldTab(id);if(id==='acessos')loadUserManagement();document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===id))};
 
 // Camada visual: não altera coleções, regras, autenticação ou rotas de envio.
-const svgIcons={dashboard:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',clientes:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',perguntas:'<path d="M8 10h8M8 14h5"/><rect x="3" y="3" width="18" height="18" rx="3"/>',envios:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',respostas:'<path d="M20 6 9 17l-5-5"/><rect x="2" y="2" width="20" height="20" rx="4"/>',historico:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',acessos:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',installAppNav:'<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/>',logout:'<path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/>'};
+const svgIcons={dashboard:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',clientes:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',perguntas:'<path d="M8 10h8M8 14h5"/><rect x="3" y="3" width="18" height="18" rx="3"/>',envios:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',respostas:'<path d="M20 6 9 17l-5-5"/><rect x="2" y="2" width="20" height="20" rx="4"/>',historico:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',acessos:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',relatorios:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/><path d="M8 17v-3M12 17v-6M16 17v-2"/>',configuracoes:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',installAppNav:'<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/>',logout:'<path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/>'};
 for(const b of document.querySelectorAll('#nav button')){let name=b.dataset.tab||b.id;if(svgIcons[name])b.insertAdjacentHTML('afterbegin',`<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${svgIcons[name]}</svg></span>`)}
-const headerBrand=document.querySelector('header b');headerBrand.innerHTML='<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></span>Pesquisa de Satisfação';
+/* marca: ver applyBranding */ void '<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></span>Pesquisa de Satisfação';
 const decoratedRender=render;
-render=function(){decoratedRender();const symbols=['♙','☷','✉','▤','✓','★','◷','%'];document.querySelectorAll('#metrics .metric').forEach((el,i)=>{if(!el.querySelector('.metric-icon'))el.insertAdjacentHTML('beforeend',`<span class="metric-icon" aria-hidden="true">${symbols[i]||'•'}</span>`)});
+render=function(){decoratedRender();const symbols=metricIcons;document.querySelectorAll('#metrics .metric').forEach((el,i)=>{if(!el.querySelector('.metric-icon'))el.insertAdjacentHTML('beforeend',`<span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${symbols[i]||''}</svg></span>`)});
 const events=[...responses.map(r=>({kind:'Resposta recebida',name:r.clientName||clients.find(c=>c.id===r.clientId)?.name||'Cliente',date:r.submittedAt,icon:'✓'})),...invites.filter(i=>i.sentAt).map(i=>({kind:'Pesquisa enviada',name:i.clientName||'Cliente',date:i.sentAt,icon:'✉'}))].sort((a,b)=>(b.date?.toMillis?.()||0)-(a.date?.toMillis?.()||0)).slice(0,6);
 $('recentActivity').innerHTML=events.length?events.map(e=>`<div class="activity-item"><span class="activity-dot">${e.icon}</span><div><strong>${escapeHtml(e.kind)}</strong>${escapeHtml(e.name)}<br><small>${dateStr(e.date)}</small></div></div>`).join(''):'<p class="empty">As atividades aparecerão após os primeiros envios e respostas.</p>';
 };
@@ -613,7 +847,240 @@ updateSurveyInstallButton();
 // Service worker restrito à pasta deste sistema, sem interferir nos outros apps do mesmo domínio.
 if('serviceWorker' in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(e=>console.warn('PWA:',e)));
 
+
+// ===== Identidade visual: logomarca e nome da empresa (Firestore: settings/branding) =====
+const metricIcons=[
+ '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+ '<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>',
+ '<path d="M4 4h16v16H4z"/><path d="m4 7 8 6 8-6"/>',
+ '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+ '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+ '<path d="M20 6 9 17l-5-5"/>',
+ '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>'
+];
+const BRAND_KEY='pesquisa-satisfacao:marca';
+const BRAND_MAX_CHARS=700000; // mantém o documento bem abaixo do limite de 1 MB do Firestore
+const DEFAULT_MARK='<span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg></span>';
+const validLogo=v=>typeof v==='string'&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v);
+let branding={logo:'',companyName:'',showName:true},brandingDraft=null;
+try{const c=JSON.parse(storageGet(BRAND_KEY)||'null');if(c)branding={logo:validLogo(c.logo)?c.logo:'',companyName:String(c.companyName||'').slice(0,80),showName:c.showName!==false}}catch{}
+const logoImg=(src,alt)=>`<img src="${src}" alt="${escapeHtml(alt||'Logomarca')}">`;
+
+function applyBranding(){
+ const b=branding,name=b.companyName||'Pesquisa de Satisfação';
+ $('brandLogo').innerHTML=b.logo?logoImg(b.logo,name):DEFAULT_MARK;
+ $('brandName').textContent=name;
+ $('brandSub').textContent=b.companyName?'Pesquisa de Satisfação':'Portal de gestão';
+ const nameHidden=!!b.logo&&!b.showName;
+ $('brandText').classList.toggle('hidden',nameHidden);
+ $('brand').classList.toggle('logo-only',nameHidden);
+ $('brand').classList.toggle('has-logo',!!b.logo);
+ const lb=$('loginBrand');
+ if(lb){if(b.logo){lb.innerHTML=logoImg(b.logo,name);lb.classList.add('has-logo')}else if(lb.classList.contains('has-logo')){lb.classList.remove('has-logo');lb.innerHTML='<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h4M8 16l2 2 4-4"/></svg>'}}
+ const sb=$('surveyBrand');
+ if(sb){sb.innerHTML=(b.logo?logoImg(b.logo,name):'')+(b.companyName&&(!b.logo||b.showName)?`<strong>${escapeHtml(b.companyName)}</strong>`:'');sb.classList.toggle('hidden',!b.logo&&!b.companyName)}
+ $('appFooter').textContent=`© ${new Date().getFullYear()} ${name}${b.companyName?' · Pesquisa de Satisfação':''}`;
+ document.title=b.companyName?`${b.companyName} · Pesquisa de Satisfação`:'Pesquisa de Satisfação';
+ if(!$('relatorios').classList.contains('hidden'))renderReport();
+}
+function cacheBranding(){storageSet(BRAND_KEY,JSON.stringify(branding))}
+async function loadBranding(){
+ applyBranding();
+ try{
+  const snap=await getDoc(doc(db,'settings','branding'));
+  const d=snap.exists()?snap.data():{};
+  branding={logo:validLogo(d.logo)?d.logo:'',companyName:String(d.companyName||'').slice(0,80),showName:d.showName!==false};
+  cacheBranding();applyBranding();
+ }catch(e){console.warn('Marca: usando cópia local.',e.code||e.message)}
+}
+
+// Otimiza a imagem no navegador: redimensiona e converte para PNG/WEBP.
+async function processLogoFile(file){
+ if(!file)throw Error('Nenhum arquivo selecionado.');
+ if(!/^image\/(png|jpeg|webp|svg\+xml)$/.test(file.type))throw Error('Formato não suportado. Use PNG, JPG, WEBP ou SVG.');
+ if(file.size>5*1024*1024)throw Error('Arquivo muito grande. O limite é 5 MB.');
+ const url=URL.createObjectURL(file);
+ try{
+  const img=await new Promise((ok,fail)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>fail(Error('Não foi possível ler a imagem.'));i.src=url});
+  let w=img.naturalWidth||img.width||600,h=img.naturalHeight||img.height||200;
+  const isSvg=file.type==='image/svg+xml';
+  let maxSide=640;
+  const draw=(side,type,q)=>{const sc=isSvg?side/Math.max(w,h):Math.min(1,side/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*sc));c.height=Math.max(1,Math.round(h*sc));const ctx=c.getContext('2d');if(type==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height)}ctx.drawImage(img,0,0,c.width,c.height);return c.toDataURL(type,q)};
+  let data=draw(maxSide,'image/png');
+  while(data.length>BRAND_MAX_CHARS&&maxSide>200){
+   const webp=draw(maxSide,'image/webp',.9);
+   if(webp.startsWith('data:image/webp')&&webp.length<=BRAND_MAX_CHARS){data=webp;break}
+   maxSide=Math.round(maxSide*.8);data=draw(maxSide,'image/png');
+  }
+  if(data.length>BRAND_MAX_CHARS)data=draw(400,'image/jpeg',.85);
+  if(!validLogo(data)||data.length>BRAND_MAX_CHARS)throw Error('Não foi possível otimizar a imagem. Tente um arquivo menor.');
+  return data;
+ }finally{URL.revokeObjectURL(url)}
+}
+
+function renderBrandingForm(){
+ const d=brandingDraft||branding;
+ const empty='<em>Nenhuma logomarca</em>';
+ $('logoPreviewLight').innerHTML=d.logo?logoImg(d.logo):empty;
+ $('logoPreviewDark').innerHTML=d.logo?logoImg(d.logo):empty;
+ $('removeLogo').disabled=!d.logo;
+ $('companyNameInput').value=d.companyName||'';
+ $('showCompanyName').checked=d.showName!==false;
+ const dirty=JSON.stringify(d)!==JSON.stringify(branding);
+ $('discardBranding').disabled=!dirty;
+ if(dirty){$('brandingStatus').textContent='Alterações não salvas.';$('brandingStatus').classList.add('unsaved')}
+ else $('brandingStatus').classList.remove('unsaved');
+}
+function startBrandingEdit(){brandingDraft={...branding};$('brandingStatus').textContent='';renderBrandingForm()}
+async function handleLogoFile(file){
+ const st=$('brandingStatus');st.classList.remove('unsaved');st.textContent='Otimizando imagem...';
+ try{const data=await processLogoFile(file);brandingDraft={...(brandingDraft||branding),logo:data};renderBrandingForm();st.textContent=`Imagem pronta (${Math.round(data.length*.75/1024)} KB). Clique em “Salvar configurações” para aplicar.`;st.classList.add('unsaved')}
+ catch(e){st.textContent=e.message}
+ finally{$('logoInput').value=''}
+}
+$('logoInput').onchange=e=>handleLogoFile(e.target.files[0]);
+const drop=$('logoDrop');
+['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>handleLogoFile(e.dataTransfer?.files?.[0]));
+$('removeLogo').onclick=()=>{brandingDraft={...(brandingDraft||branding),logo:''};renderBrandingForm()};
+$('companyNameInput').oninput=e=>{brandingDraft={...(brandingDraft||branding),companyName:e.target.value.slice(0,80)};renderBrandingForm()};
+$('showCompanyName').onchange=e=>{brandingDraft={...(brandingDraft||branding),showName:e.target.checked};renderBrandingForm()};
+$('discardBranding').onclick=()=>{startBrandingEdit()};
+$('themeSelect').onchange=e=>setTheme(e.target.value==='dark');
+$('saveBranding').onclick=async()=>{
+ const st=$('brandingStatus'),btn=$('saveBranding');
+ if(!['administrador','master'].includes(currentRole)){st.textContent='Sem permissão para alterar as configurações.';return}
+ const d={...(brandingDraft||branding)};d.companyName=String(d.companyName||'').trim().slice(0,80);
+ if(d.logo&&!validLogo(d.logo)){st.textContent='Logomarca inválida.';return}
+ btn.disabled=true;st.classList.remove('unsaved');st.textContent='Salvando...';
+ try{
+  await setDoc(doc(db,'settings','branding'),{logo:d.logo||'',companyName:d.companyName,showName:d.showName!==false,updatedAt:serverTimestamp(),updatedBy:auth.currentUser.uid});
+  branding={logo:d.logo||'',companyName:d.companyName,showName:d.showName!==false};cacheBranding();applyBranding();startBrandingEdit();
+  st.textContent='Configurações salvas. A logomarca já aparece para todos os usuários.';
+ }catch(e){
+  console.error('Configurações:',e);
+  st.textContent=e.code==='permission-denied'?'Sem permissão no Firestore. Publique as regras atualizadas (arquivo firestore.rules) em Firebase Console → Firestore → Regras.':'Não foi possível salvar: '+e.message;
+ }finally{btn.disabled=false}
+};
+
+// ===== Relatórios =====
+const tsMs=v=>v?.toMillis?.()||(v?.seconds?v.seconds*1000:0);
+const fmtNum=(n,d=1)=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtDate=d=>d.toLocaleDateString('pt-BR');
+function reportRange(){
+ const f=$('reportFrom').value,t=$('reportTo').value;
+ return {from:f?new Date(f+'T00:00:00').getTime():-Infinity,to:t?new Date(t+'T23:59:59.999').getTime():Infinity,f,t};
+}
+function setReportPreset(p){
+ const now=new Date(),iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+ let from='',to='';
+ if(p==='30'||p==='90'){const d=new Date(now);d.setDate(d.getDate()-Number(p)+1);from=iso(d);to=iso(now)}
+ if(p==='month'){from=iso(new Date(now.getFullYear(),now.getMonth(),1));to=iso(now)}
+ if(p==='year'){from=iso(new Date(now.getFullYear(),0,1));to=iso(now)}
+ if(p!=='custom'){$('reportFrom').value=from;$('reportTo').value=to}
+}
+function reportQuestionMap(){
+ const map=new Map();
+ invites.forEach(i=>(i.questions||[]).forEach(q=>{if(q?.id&&!map.has(q.id))map.set(q.id,{id:q.id,text:q.text,type:q.type})}));
+ questions.forEach(q=>map.set(q.id,{id:q.id,text:q.text,type:q.type}));
+ return map;
+}
+function reportData(){
+ const {from,to}=reportRange(),cid=$('reportClient').value;
+ const okClient=x=>cid==='all'||x.clientId===cid;
+ const resp=responses.filter(r=>okClient(r)&&tsMs(r.submittedAt)>=from&&tsMs(r.submittedAt)<=to).sort((a,b)=>tsMs(b.submittedAt)-tsMs(a.submittedAt));
+ const inv=invites.filter(i=>okClient(i)&&tsMs(i.createdAt)>=from&&tsMs(i.createdAt)<=to);
+ const qmap=reportQuestionMap();
+ const used=new Set();resp.forEach(r=>Object.keys(r.answers||{}).forEach(k=>used.add(k)));
+ const qs=[...used].map(id=>{const q=qmap.get(id)||{id,type:null};const label=q.text||resp.find(r=>r.questionLabels?.[id])?.questionLabels?.[id]||'Pergunta';let type=q.type;if(!type){const vals=resp.map(r=>String(r.answers?.[id]??'')).filter(Boolean);type=vals.every(v=>/^[1-5]$/.test(v))?'rating':vals.every(v=>v==='Sim'||v==='Não')?'yesno':'text'}return {id,text:label,type}});
+ const order=[...questions.map(q=>q.id)];qs.sort((a,b)=>{const ia=order.indexOf(a.id),ib=order.indexOf(b.id);return (ia<0?999:ia)-(ib<0?999:ib)});
+ return {resp,inv,qs};
+}
+function ratingAvg(r,qs){const v=qs.filter(q=>q.type==='rating').map(q=>Number(r.answers?.[q.id])).filter(n=>n>=1&&n<=5);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
+function renderReport(){
+ if(!$('reportDoc'))return;
+ const {resp,inv,qs}=reportData(),{f,t}=reportRange();
+ const cid=$('reportClient').value,client=clients.find(c=>c.id===cid);
+ const b=branding,company=b.companyName||'';
+ const period=f||t?`${f?fmtDate(new Date(f+'T00:00:00')):'Início'} a ${t?fmtDate(new Date(t+'T00:00:00')):'hoje'}`:'Todo o período';
+ const sent=inv.filter(i=>i.sentAt||['sent','completed'].includes(i.status)).length;
+ const done=inv.filter(i=>i.status==='completed').length;
+ const rate=inv.length?Math.round(done/inv.length*100):0;
+ const allRatings=[];resp.forEach(r=>qs.filter(q=>q.type==='rating').forEach(q=>{const n=Number(r.answers?.[q.id]);if(n>=1&&n<=5)allRatings.push(n)}));
+ const avg=allRatings.length?allRatings.reduce((a,c)=>a+c,0)/allRatings.length:null;
+ const satisfied=allRatings.length?Math.round(allRatings.filter(n=>n>=4).length/allRatings.length*100):null;
+ const kpi=(l,v,s)=>`<div class="report-kpi"><span>${l}</span><strong>${v}</strong>${s?`<small>${s}</small>`:''}</div>`;
+ const bars=(rows)=>`<div class="report-bars">${rows.map(([l,n,p])=>`<div class="report-bar"><span>${escapeHtml(l)}</span><span class="track"><span class="fill" style="width:${p}%"></span></span><b>${n} · ${p}%</b></div>`).join('')}</div>`;
+ const qHtml=qs.filter(q=>q.type!=='text').map(q=>{
+  const vals=resp.map(r=>String(r.answers?.[q.id]??'')).filter(Boolean);
+  if(q.type==='rating'){
+   const nums=vals.map(Number).filter(n=>n>=1&&n<=5),a=nums.length?nums.reduce((x,y)=>x+y,0)/nums.length:0;
+   const rows=[5,4,3,2,1].map(n=>{const c=nums.filter(x=>x===n).length;return ['Nota '+n,c,nums.length?Math.round(c/nums.length*100):0]});
+   return `<div class="report-q"><div class="report-q-head"><b>${escapeHtml(q.text)}</b><span class="score">${nums.length?fmtNum(a):'—'} <small>/ 5 · ${nums.length} resp.</small></span></div>${bars(rows)}</div>`;
+  }
+  const rows=['Sim','Não'].map(o=>{const c=vals.filter(v=>v===o).length;return [o,c,vals.length?Math.round(c/vals.length*100):0]});
+  return `<div class="report-q"><div class="report-q-head"><b>${escapeHtml(q.text)}</b><span class="score">${vals.length?rows[0][2]+'%':'—'} <small>sim · ${vals.length} resp.</small></span></div>${bars(rows)}</div>`;
+ }).join('');
+ const textQs=qs.filter(q=>q.type==='text');
+ const comments=textQs.map(q=>{const items=resp.filter(r=>String(r.answers?.[q.id]??'').trim());return items.length?`<h3 style="font-size:13.5px;margin:16px 0 8px">${escapeHtml(q.text)}</h3><ul class="report-comments">${items.map(r=>`<li>${escapeHtml(r.answers[q.id])}<small>${escapeHtml(r.clientName||'Cliente')} · ${dateStr(r.submittedAt)}</small></li>`).join('')}</ul>`:''}).join('');
+ const table=resp.length?`<div style="overflow:auto"><table><thead><tr><th>Cliente</th><th>Empresa</th><th>Respondido em</th><th style="text-align:right">Nota média</th></tr></thead><tbody>${resp.map(r=>{const c=clients.find(x=>x.id===r.clientId),m=ratingAvg(r,qs);return `<tr><td><b>${escapeHtml(r.clientName||c?.name||'Cliente')}</b><div style="color:#8a97a8">${escapeHtml(c?.email||'')}</div></td><td>${escapeHtml(c?.company||'—')}</td><td>${dateStr(r.submittedAt)}</td><td style="text-align:right">${m==null?'—':fmtNum(m)}</td></tr>`}).join('')}</tbody></table></div>`:'';
+ const user=auth?.currentUser?.email||'';
+ $('reportDoc').innerHTML=`
+ <header class="report-head"><div class="report-logo">${b.logo?logoImg(b.logo,company):DEFAULT_MARK}</div>
+ <div class="report-id"><h1>Relatório de Pesquisa de Satisfação</h1><p>${escapeHtml(company||'Resultados consolidados das pesquisas')}</p></div>
+ <div class="report-meta"><div>Período: <b>${escapeHtml(period)}</b></div><div>Cliente: <b>${escapeHtml(client?.name||'Todos')}</b></div><div>Emitido em: <b>${new Date().toLocaleString('pt-BR')}</b></div></div></header>
+ <section class="report-kpis">${kpi('Convites enviados',sent,inv.length+' gerado(s)')}${kpi('Respostas',resp.length,'no período')}${kpi('Taxa de resposta',rate+'%',done+' de '+inv.length+' convite(s)')}${kpi('Nota média',avg==null?'—':fmtNum(avg),'escala de 1 a 5')}${kpi('Satisfeitos',satisfied==null?'—':satisfied+'%','notas 4 e 5')}</section>
+ ${resp.length?`<h2 class="report-section">Resultados por pergunta</h2>${qHtml||'<p class="report-empty">Não há perguntas de avaliação no período.</p>'}
+ ${comments?`<h2 class="report-section">Comentários dos clientes</h2>${comments}`:''}
+ <h2 class="report-section">Respostas detalhadas (${resp.length})</h2>${table}`:'<p class="report-empty" style="margin-top:24px">Nenhuma resposta encontrada para os filtros selecionados.</p>'}
+ <footer class="report-foot"><span>${escapeHtml(company?company+' · ':'')}Pesquisa de Satisfação</span><span>${user?'Emitido por '+escapeHtml(user):''}</span></footer>`;
+}
+function fillReportClients(){
+ const sel=$('reportClient'),cur=sel.value;
+ sel.innerHTML='<option value="all">Todos os clientes</option>'+[...clients].sort((a,b)=>String(a.name).localeCompare(String(b.name),'pt-BR')).map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}${c.company?' — '+escapeHtml(c.company):''}</option>`).join('');
+ sel.value=[...sel.options].some(o=>o.value===cur)?cur:'all';
+}
+$('reportPreset').onchange=e=>{setReportPreset(e.target.value);renderReport()};
+['reportFrom','reportTo'].forEach(id=>$(id).onchange=()=>{$('reportPreset').value='custom';renderReport()});
+$('reportClient').onchange=renderReport;
+$('printReport').onclick=()=>{renderReport();window.print()};
+$('exportReportCsv').onclick=()=>{
+ const {resp,qs}=reportData();
+ if(!resp.length){alert('Nenhuma resposta para exportar com os filtros atuais.');return}
+ const cell=v=>{let s=String(v??'');if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
+ const head=['Cliente','E-mail','Empresa','Respondido em',...qs.map(q=>q.text),'Nota média'];
+ const lines=resp.map(r=>{const c=clients.find(x=>x.id===r.clientId),m=ratingAvg(r,qs);return [r.clientName||c?.name||'',c?.email||'',c?.company||'',dateStr(r.submittedAt),...qs.map(q=>r.answers?.[q.id]??''),m==null?'':fmtNum(m)]});
+ const csv='﻿'+[head,...lines].map(l=>l.map(cell).join(';')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');
+ a.href=url;a.download='relatorio-pesquisa-satisfacao-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+// ===== Integração com navegação, perfis e renderização =====
+const tabSections={dashboard:'Visão geral',clientes:'Operação',perguntas:'Operação',envios:'Operação',respostas:'Análise',historico:'Análise',relatorios:'Análise',acessos:'Administração',configuracoes:'Administração'};
+function updateNavGroups(){document.querySelectorAll('#nav .nav-group').forEach(g=>{let n=g.nextElementSibling,any=false;while(n&&n.dataset?.tab){if(!n.classList.contains('hidden'))any=true;n=n.nextElementSibling}g.classList.toggle('hidden',!any)})}
+const roleTabApply=applyRole;applyRole=function(){roleTabApply();updateNavGroups()};
+const brandTab=tab;tab=function(id){
+ if(!permissions[id]?.includes(currentRole))return;
+ brandTab(id);
+ const btn=document.querySelector(`#nav [data-tab="${id}"]`);
+ $('pageTitle').textContent=btn?btn.textContent.trim():'';
+ $('pageSection').textContent=tabSections[id]||'';
+ if(id==='relatorios'){fillReportClients();renderReport()}
+ if(id==='configuracoes')startBrandingEdit();
+};
+const brandRender=render;render=function(){
+ brandRender();
+ fillReportClients();
+ if(!$('relatorios').classList.contains('hidden'))renderReport();
+ const email=auth?.currentUser?.email||'';$('userAvatar').textContent=(email[0]||'•').toUpperCase();
+};
+const viewShow=show;show=function(id){viewShow(id);document.body.dataset.view=id;if(id==='admin'){const email=auth?.currentUser?.email||'';$('userAvatar').textContent=(email[0]||'•').toUpperCase()}};
+applyBranding();
+
 let saved=JSON.stringify(firebaseProjectConfig);if(saved){try{init(JSON.parse(saved))}catch(e){show('setup');$('setupError').textContent=e.message}}else show('setup');
+if(db)loadBranding();
 
 // Navegação móvel: abrir, fechar, teclado, toque fora e mudança de tela.
 (function(){

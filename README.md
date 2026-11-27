@@ -14,5 +14,8 @@ Authentication → Configurações → Domínios autorizados.
 - `manifest.webmanifest`, `sw.js`, `icons/` — instalação como app (PWA)
 - `firestore.rules` — regras de segurança do Firestore (publicar em Firebase Console → Firestore → Regras)
 
+## Configurações e logomarca
+Em **Configurações** (Administrador ou Master) é possível enviar a logomarca e o nome da empresa. Eles aparecem no topo do portal, na tela de acesso, na página da pesquisa e nos **Relatórios** (impressão/PDF e CSV). Os dados ficam no documento `settings/branding` do Firestore — publique o `firestore.rules` atualizado para habilitar o salvamento.
+
 ## Segurança
 A configuração Web do Firebase fica no código (isso é normal), mas a proteção real depende das **regras do Firestore** e da validação do token no Worker.
